@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import style from './App.module.css';
@@ -7,14 +7,69 @@ import { MyLineChart } from './components/MyLineChart';
 
 export default function App() {
 
-  const testData = {
+  const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
         data: [830, 762, 810, 700, 723, 493, 677, 641, 509, 213, 335, 198, 29]
       },
     ],
-  };
+  });
+  function filterChart(time) {
+    switch (time) {
+      case '1D':
+        setTestData({
+          labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+          datasets: [
+            {
+              data: [830, 762, 810, 700, 723]
+            },
+          ],
+        });
+        return;
+      case '1W':
+        setTestData({
+          labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+          datasets: [
+            {
+              data: [830, 762, 810, 700, 723, 493, 677]
+            },
+          ],
+        });
+        return;
+      case '1M':
+        setTestData({
+          labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
+          datasets: [
+            {
+              data: [509, 213, 335, 805]
+            },
+          ],
+        });
+        return;
+      case '3M':
+        setTestData({
+          labels: ['Jan', 'Feb', 'Mar'],
+          datasets: [
+            {
+              data: [509, 213, 335]
+            },
+          ],
+        });
+        return;
+      case '1Y':
+        setTestData({
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [
+            {
+              data: [830, 762, 810, 700, 723, 493, 677, 641, 509, 213, 335, 198, 29]
+            },
+          ],
+        });
+        return;
+    }
+  }
+  const stockName = 'APPL';
   const currStockPrice = 151.23;
   const radioButtonsData = [
     {
@@ -42,30 +97,31 @@ export default function App() {
       label: '1Y',
       value: '1Y',
     },
-    {
-      id: '6',
-      label: '5Y',
-      value: '5Y',
-    },
   ];
-  const [radioButtons, setRadioButtons] = useState('1D'); //pass in our data to this state. This will store the current user's choice
+  const [radioButtons, setRadioButtons] = useState('1Y'); //pass in our data to this state. This will store the current user's choice
   const setValue = (value) => {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
 
+  useEffect(() => {
+    filterChart(radioButtons);
+  }, [radioButtons]);
+
   return (
     <SafeAreaView style={style.container}>
       <View>
         <StatusBar style="auto" />
-        <Text>APPL</Text>
+        <Text>{stockName}</Text>
         <Text>${currStockPrice}</Text>
 
         <MyLineChart data={testData} />
         <View>
           <RadioGroup
             radioButtons={radioButtonsData}
-            onPress={(value) => setValue(value)}
+            onPress={(value) => {
+              setValue(value);
+            }}
             containerStyle={style.radio}
             layout='row'
           />
