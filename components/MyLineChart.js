@@ -5,9 +5,6 @@ import { LineChart } from 'react-native-chart-kit'
 export function MyLineChart({ data }) {
     return (
         <View>
-            <Text>
-                My Line Chart
-            </Text>
             <LineChart
                 data={data}
                 width={Dimensions.get('window').width}

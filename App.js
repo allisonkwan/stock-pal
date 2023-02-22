@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
-import style from './App.module.css';
+import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
 
 export default function App() {
@@ -109,11 +109,11 @@ export default function App() {
   }, [radioButtons]);
 
   return (
-    <SafeAreaView style={style.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <StatusBar style="auto" />
-        <Text>{stockName}</Text>
-        <Text>${currStockPrice}</Text>
+        <Text style={styles.title}>{stockName}</Text>
+        <Text style={styles.title}>${currStockPrice}</Text>
 
         <MyLineChart data={testData} />
         <View>
@@ -122,7 +122,7 @@ export default function App() {
             onPress={(value) => {
               setValue(value);
             }}
-            containerStyle={style.radio}
+            containerStyle={styles.radio}
             layout='row'
           />
           <Text>You selected: {radioButtons}</Text>
