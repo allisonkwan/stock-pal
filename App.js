@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
+import { CostAndTraction } from "./components/CostAndTraction";
+import {MentionsBreakdown} from "./components/MentionsBreakdown";
 
 export default function App() {
 
@@ -126,6 +128,11 @@ export default function App() {
             layout='row'
           />
           <Text>You selected: {radioButtons}</Text>
+        </View>
+        <View>
+          <Text style={styles.dataPointTimestamp}>Feb 11, 4:00 PM</Text>
+          <CostAndTraction data={['Today', 'Hour', 151.53, 153.65, "2M", "79K"]} />
+          <MentionsBreakdown data={['Hour', 70000]} />
         </View>
       </View>
     </SafeAreaView>
