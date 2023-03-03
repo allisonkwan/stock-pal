@@ -3,7 +3,6 @@ import React from 'react'
 import styles from "../Styles";
 
 export function CostAndTraction({data} ) {
-    console.log(data[0])
     return (
         <View style={styles.costAndTractionContainer}>
             <View>

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
     container: {
@@ -15,6 +15,22 @@ export default StyleSheet.create({
     costAndTractionContainer: {
         flexDirection: 'row',
         justifyContent: 'center'
+    },
+    mentionsBreakdown: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: 10
+    },
+    platformBreakdown: {
+        width: Dimensions.get('window').width,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
+        padding: 10
+    },
+    logoAndName: {
+        flexDirection: 'row',
+        alignItems: "center",
     },
     radio: {
         display: 'flex',
