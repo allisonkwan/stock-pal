@@ -6,14 +6,28 @@ import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
 import { CostAndTraction } from "./components/CostAndTraction";
 import {MentionsBreakdown} from "./components/MentionsBreakdown";
+import {DataPoint} from "./components/DataPoint";
 
 export default function App() {
+  const datapoint0 = new DataPoint("Feb 00, 00:00", 830);
+  const datapoint1 = new DataPoint("Feb 01, 01:00", 762);
+  const datapoint2 = new DataPoint("Feb 02, 02:00", 810);
+  const datapoint3 = new DataPoint("Feb 03, 03:00", 700);
+  const datapoint4 = new DataPoint("Feb 04, 04:00", 723);
+  const datapoint5 = new DataPoint("Feb 05, 05:00", 493);
+  const datapoint6 = new DataPoint("Feb 06, 06:00", 677);
+  const datapoint7 = new DataPoint("Feb 07, 07:00", 641);
+  const datapoint8 = new DataPoint("Feb 08, 08:00", 509);
+  const datapoint9 = new DataPoint("Feb 09, 09:00", 213);
+  const datapoint10 = new DataPoint("Feb 10, 10:00", 198);
+  const datapoint11 = new DataPoint("Feb 11, 11:00", 29);
 
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
-        data: [830, 762, 810, 700, 723, 493, 677, 641, 509, 213, 335, 198, 29]
+        data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+          datapoint8, datapoint9, datapoint10, datapoint11]
       },
     ],
   });
@@ -24,7 +38,7 @@ export default function App() {
           labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
           datasets: [
             {
-              data: [830, 762, 810, 700, 723]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
             },
           ],
         });
@@ -34,7 +48,7 @@ export default function App() {
           labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
           datasets: [
             {
-              data: [830, 762, 810, 700, 723, 493, 677]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6]
             },
           ],
         });
@@ -44,7 +58,7 @@ export default function App() {
           labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
           datasets: [
             {
-              data: [509, 213, 335, 805]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3]
             },
           ],
         });
@@ -54,7 +68,7 @@ export default function App() {
           labels: ['Jan', 'Feb', 'Mar'],
           datasets: [
             {
-              data: [509, 213, 335]
+              data: [datapoint0, datapoint1, datapoint2]
             },
           ],
         });
@@ -64,7 +78,8 @@ export default function App() {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [
             {
-              data: [830, 762, 810, 700, 723, 493, 677, 641, 509, 213, 335, 198, 29]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+                datapoint8, datapoint9, datapoint10, datapoint11]
             },
           ],
         });
@@ -130,11 +145,16 @@ export default function App() {
           <Text>You selected: {radioButtons}</Text>
         </View>
         <View>
-          <Text style={styles.dataPointTimestamp}>Feb 11, 4:00 PM</Text>
+          <Text style={styles.dataPointTimestamp}>{timestamp}</Text>
           <CostAndTraction data={['Today', 'Hour', 151.53, 153.65, "2M", "79K"]} />
           <MentionsBreakdown data={['Hour', 70000]} />
         </View>
       </View>
     </SafeAreaView>
   );
+}
+
+let timestamp = "Feb 11, 4:00 PM";
+export function updateTimeStamp(newTimestamp) {
+  timestamp = newTimestamp;
 }
