@@ -132,8 +132,8 @@ export default function App() {
         <Text style={styles.title}>{stockName}</Text>
         <Text style={styles.title}>${currStockPrice}</Text>
 
-        <MyLineChart data={testData} />
         <View>
+          <MyLineChart data={testData} />
           <RadioGroup
             radioButtons={radioButtonsData}
             onPress={(value) => {
@@ -155,6 +155,3 @@ export default function App() {
 }
 
 let timestamp = "Feb 11, 4:00 PM";
-export function updateTimeStamp(newTimestamp) {
-  timestamp = newTimestamp;
-}

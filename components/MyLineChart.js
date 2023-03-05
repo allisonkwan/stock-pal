@@ -1,23 +1,14 @@
-import {View, Dimensions, Text} from 'react-native'
-import React from 'react'
+import {View, Dimensions} from 'react-native'
+import React, { useState } from 'react'
 import { LineChart } from 'react-native-chart-kit'
-import { updateTimeStamp } from "../App";
-import styles from "../Styles";
+import Svg, {Rect, Text as TextSVG} from "react-native-svg";
 
 export function MyLineChart({ data }) {
     const dataValues = getDataValues(data);
+    let [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, visible: false, value: 0 })
 
     return (
-        <View>
             <LineChart
-                onDataPointClick={
-                    (data)=> {
-                        console.log(data);
-                        const dataPointIndex = data.index;
-                        const timestamp = data.dataset.timestamp[dataPointIndex];
-                        updateTimeStamp(timestamp);
-                    }
-                }
                 data={dataValues}
                 width={Dimensions.get('window').width}
                 height={200}
@@ -27,8 +18,45 @@ export function MyLineChart({ data }) {
                     backgroundGradientTo: 'blue',
                     color: (opacity = 3) => `rgba(255, 255, 255, ${opacity})`
                 }}
+
+                decorator={() => {
+                    return tooltipPos.visible ? <View>
+                        <Svg>
+                            <Rect x="5"
+                                  y="300"
+                                  width={Dimensions.get('window').width}
+                                  height="32"
+                                  fill="black" />
+                            <TextSVG
+                                x={tooltipPos.x + 5}
+                                y={tooltipPos.y + 30}
+                                fill="white"
+                                fontSize="16"
+                                fontWeight="bold"
+                                textAnchor="middle">
+                                {tooltipPos.value}
+                            </TextSVG>
+                        </Svg>
+                    </View> : null
+                }}
+
+                onDataPointClick={(data) => {
+
+                    let isSamePoint = (tooltipPos.x === data.x
+                        && tooltipPos.y === data.y)
+
+                    isSamePoint ? setTooltipPos((previousState) => {
+                            return {
+                                ...previousState,
+                                value: data.value,
+                                visible: !previousState.visible
+                            }
+                        })
+                        :
+                        setTooltipPos({ x: data.x, value: data.value, y: data.y, visible: true });
+
+                }}
             />
-        </View>
     )
 }
 
