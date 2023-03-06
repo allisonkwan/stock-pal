@@ -5,8 +5,8 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
 import { CostAndTraction } from "./components/CostAndTraction";
-import {MentionsBreakdown} from "./components/MentionsBreakdown";
-import {DataPoint} from "./components/DataPoint";
+import { MentionsBreakdown } from "./components/MentionsBreakdown";
+import { DataPoint } from "./components/DataPoint";
 
 export default function App() {
   const datapoint0 = new DataPoint("Feb 00, 00:00", 830);
@@ -145,16 +145,10 @@ export default function App() {
           <Text>You selected: {radioButtons}</Text>
         </View>
         <View>
-          <Text style={styles.dataPointTimestamp}>{timestamp}</Text>
           <CostAndTraction data={['Today', 'Hour', 151.53, 153.65, "2M", "79K"]} />
           <MentionsBreakdown data={['Hour', 70000]} />
         </View>
       </View>
     </SafeAreaView>
   );
-}
-
-let timestamp = "Feb 11, 4:00 PM";
-export function updateTimeStamp(newTimestamp) {
-  timestamp = newTimestamp;
 }

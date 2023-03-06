@@ -1,21 +1,22 @@
-import {View, Dimensions, Text} from 'react-native'
-import React from 'react'
+import { View, Dimensions, Text } from 'react-native'
+import React, { useState } from 'react'
 import { LineChart } from 'react-native-chart-kit'
-import { updateTimeStamp } from "../App";
 import styles from "../Styles";
 
 export function MyLineChart({ data }) {
     const dataValues = getDataValues(data);
-
+    const [timestamp, setTimestamp] = useState('Feb 11, 4:00 PM');
     return (
         <View>
             <LineChart
                 onDataPointClick={
-                    (data)=> {
-                        console.log(data);
+                    (data) => {
+                        //console.log(data);
                         const dataPointIndex = data.index;
-                        const timestamp = data.dataset.timestamp[dataPointIndex];
-                        updateTimeStamp(timestamp);
+                        //const timestamp = data.dataset.timestamp[dataPointIndex];
+                        setTimestamp(data.dataset.timestamp[dataPointIndex]);
+                        //console.log(timestamp);
+                        //updateTimeStamp(timestamp);
                     }
                 }
                 data={dataValues}
@@ -28,6 +29,7 @@ export function MyLineChart({ data }) {
                     color: (opacity = 3) => `rgba(255, 255, 255, ${opacity})`
                 }}
             />
+            <Text style={styles.dataPointTimestamp}>{timestamp}</Text>
         </View>
     )
 }
