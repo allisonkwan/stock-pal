@@ -39,33 +39,33 @@ api = PushshiftAPI()
 # Reddit:
 #   Uses PMAW wrapper around Pushshift API. Aggregations are done manually today due to Pushshift aggregation outage and 100-result limit on search queries.
 # Support 1H, 1D, 1W, 1M, 3M, 1Y, 5Y time filters and "hour", "day", "week", and "month" frequencies.
-def get_mention_count(stock, service, time_filter, frequency):
+def get_mention_count(stock, service, time_filter, frequency, testing=False):
     if service == "Reddit":
-
-        # Time unit conversions for mention query parameters
-        base = datetime.today() 
-        time_coeff = int(time_filter[0])
-        time_unit = time_filter[1]
-        time_range = 0
-        if frequency == "month":
-            if time_unit == "Y":
-                time_range = time_coeff * 12
-            date_list = [int((base - timedelta(days=x*30)).timestamp()) for x in range(time_range)]
-        else:
-            time_range = time_coeff * time_filter_map[frequency][time_unit]
-            if frequency == "hour":
-                date_list = [int((base - timedelta(hours=x)).timestamp()) for x in range(time_range + 1)]
-            if frequency == "day":
-                date_list = [int((base - timedelta(days=x)).timestamp()) for x in range(time_range + 1)]
-            if frequency == "week":
-                date_list = [int((base - timedelta(weeks=x)).timestamp()) for x in range(time_range + 1)]
-        date_list.reverse()
-        print(date_list)
-
-        # PMAW query for mention count across all subreddit comments from "since" time to "until" time.
+        # Replace with mention count = [data vector] with desired testing data
         mention_count = []
-        for i in range(len(date_list) - 1):
-            mention_count.append(len(api.search_comments(q=stock, since=date_list[i], until=date_list[i + 1])))
+        if not testing:
+            # Time unit conversions for mention query parameters
+            base = datetime.today() 
+            time_coeff = int(time_filter[0])
+            time_unit = time_filter[1]
+            time_range = 0
+            if frequency == "month":
+                if time_unit == "Y":
+                    time_range = time_coeff * 12
+                date_list = [int((base - timedelta(days=x*30)).timestamp()) for x in range(time_range)]
+            else:
+                time_range = time_coeff * time_filter_map[frequency][time_unit]
+                if frequency == "hour":
+                    date_list = [int((base - timedelta(hours=x)).timestamp()) for x in range(time_range + 1)]
+                if frequency == "day":
+                    date_list = [int((base - timedelta(days=x)).timestamp()) for x in range(time_range + 1)]
+                if frequency == "week":
+                    date_list = [int((base - timedelta(weeks=x)).timestamp()) for x in range(time_range + 1)]
+            date_list.reverse()
+            print(date_list)
+            # PMAW query for mention count across all subreddit comments from "since" time to "until" time.
+            for i in range(len(date_list) - 1):
+                mention_count.append(len(api.search_comments(q=stock, since=date_list[i], until=date_list[i + 1])))
     return mention_count
 
 # Get top mentioned stock name for a given time range.
