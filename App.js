@@ -5,7 +5,7 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
 import { CostAndTraction } from "./components/CostAndTraction";
-import {MentionsBreakdown} from "./components/MentionsBreakdown";
+import { MentionsBreakdown } from "./components/MentionsBreakdown";
 
 export default function App() {
 
@@ -27,7 +27,7 @@ export default function App() {
               data: [830, 762, 810, 700, 723]
             },
           ],
-        });  
+        });
         return;
       case '1W':
         setTestData({
@@ -47,7 +47,7 @@ export default function App() {
               data: [509, 213, 335, 805]
             },
           ],
-        });       
+        });
         return;
       case '3M':
         setTestData({
@@ -71,24 +71,26 @@ export default function App() {
         return;
     }
   }
-  
-  let averageCost = new Array(1);
-  function ApiRequest( stockTicker, multiplier, timespan, from, to ) {
+
+  //let averageCost = new Array(1);
+  const [averageCost, setAverageCost] = useState();
+  function ApiRequest(stockTicker, multiplier, timespan, from, to) {
     //var api = new ApiRequest(data);
     let apiRequest = new XMLHttpRequest();
-    console.log('hello')
+    //console.log('hello')
     let polygon_api_key = "oHBzULapO1eRflaBEVlNkpED4qs9pFd0"
     let polygon_rest_baseurl = "https://api.polygon.io/v2/"
-    let request_url = polygon_rest_baseurl+'aggs/ticker/'+stockTicker+'/range/1/'+timespan+'/'+from+'/'+to+'?adjusted=true&sort=asc&limit=120&apiKey='+polygon_api_key
+    let request_url = polygon_rest_baseurl + 'aggs/ticker/' + stockTicker + '/range/1/' + timespan + '/' + from + '/' + to + '?adjusted=true&sort=asc&limit=120&apiKey=' + polygon_api_key
     console.log(request_url)
     apiRequest.open("GET", request_url)
     apiRequest.send();
-    apiRequest.onload = function() {
-        dat = JSON.parse(this.response)
-        console.log(dat);
-        console.log(dat.results[0]);
-        console.log(dat.results[0].vw);
-        averageCost[0] = dat.results[0].vw;
+    apiRequest.onload = function () {
+      dat = JSON.parse(this.response)
+      console.log(dat);
+      console.log(dat.results[0]);
+      console.log(dat.results[0].vw);
+      //averageCost[0] = dat.results[0].vw;
+      setAverageCost(dat.results[0].vw);
     }
     return;
   }
@@ -133,42 +135,42 @@ export default function App() {
 
   if (radioButtons == '1D') {
     const today = new Date();
-    const ytd =  new Date(today);
-    today.setDate(today.getDate()-1);
-    ytd.setDate(today.getDate()-1);
+    const ytd = new Date(today);
+    today.setDate(today.getDate() - 1);
+    ytd.setDate(today.getDate() - 1);
     let today_string = today.toISOString().split('T')[0];
     let ytd_string = ytd.toISOString().split('T')[0];
     //console.log(ytd_string);
     //ApiRequest('AAPL', '1', 'day',ytd_string,today_string);
   } else if (radioButtons == '1W') {
     const today = new Date();
-    const last_week =  new Date(today);
-    last_week.setDate(today.getDate()-7);
+    const last_week = new Date(today);
+    last_week.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
     console.log(last_week_string)
-    ApiRequest('AAPL','1', 'week',last_week_string,today_string);
+    ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
   } else if (radioButtons == '1M') {
     const today = new Date();
-    const last_month =  new Date(today);
-    last_month.setMonth(today.getMonth()-1);
+    const last_month = new Date(today);
+    last_month.setMonth(today.getMonth() - 1);
     let today_string = today.toISOString().split('T')[0];
     let last_month_string = last_month.toISOString().split('T')[0];
     console.log(last_month_string)
     //ApiRequest('AAPL','7', 'day',last_month_string,today_string);
   } else if (radioButtons == '3M') {
     const today = new Date();
-    const three_month =  new Date(today);
-    three_month.setMonth(today.getMonth()-3);
+    const three_month = new Date(today);
+    three_month.setMonth(today.getMonth() - 3);
     let today_string = today.toISOString().split('T')[0];
     let three_month_string = three_month.toISOString().split('T')[0];
     console.log(three_month_string)
     //ApiRequest('AAPL','3', 'month',three_month_string,today_string);
   } else if (radioButtons == '1Y') {
     const today = new Date();
-    const last_year =  new Date(today);
-    
-    last_year.setFullYear(today.getFullYear()-1);
+    const last_year = new Date(today);
+
+    last_year.setFullYear(today.getFullYear() - 1);
     //console.log(today.getFullYear()-1)
     let today_string = today.toISOString().split('T')[0];
     let last_year_string = last_year.toISOString().split('T')[0];
