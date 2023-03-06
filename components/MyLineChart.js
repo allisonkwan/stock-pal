@@ -22,10 +22,10 @@ export function MyLineChart({ data }) {
                 decorator={() => {
                     return tooltipPos.visible ? <View>
                         <Svg>
-                            <Rect x="5"
-                                  y="300"
-                                  width={Dimensions.get('window').width}
-                                  height="32"
+                            <Rect x={tooltipPos.x - 15}
+                                  y={tooltipPos.y + 10}
+                                  width="40"
+                                  height="30"
                                   fill="black" />
                             <TextSVG
                                 x={tooltipPos.x + 5}
