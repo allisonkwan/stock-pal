@@ -22,7 +22,6 @@ export function MyLineChart({ data }) {
                 data={dataValues}
                 width={Dimensions.get('window').width}
                 height={200}
-                yAxisLabel={'$'}
                 chartConfig={{
                     backgroundGradientFrom: 'darkblue',
                     backgroundGradientTo: 'blue',
