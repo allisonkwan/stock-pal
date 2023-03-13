@@ -1,22 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { Text, View, Button } from 'react-native';
+import styles from './Styles';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
-class HomeScreen extends React.Component {
-  render() {
+export default function HomeScreen({navigation}) {
+    const tableData = {
+        HeadTable: ['Stock', 'Price'],
+        DataTable: [
+            ['APPL', '$108.23'],
+            ['MSFT', '$265.91'],
+            ['TSLA', '$194.51']
+        ]
+    }
+
     return (
       <View>
-        <Text>This is the home screen.</Text>
+        <Text>Daily highest traction</Text>
         <Button
           title="View Stock Details"
           onPress={() =>
-            this.props.navigation.navigate('Stock Details')
+            navigation.navigate('Stock Details')
           }
         />
+        <Text style={styles.boldText}>Monitoring</Text>
+        <Table>
+            <Row data={tableData.HeadTable} />
+            <Rows data={tableData.DataTable} />
+        </Table>
       </View>
     );
-  }
 }
-
-// ...
-
-export default HomeScreen;

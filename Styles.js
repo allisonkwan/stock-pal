@@ -50,5 +50,9 @@ export default StyleSheet.create({
         fontSize: 14,
         color: 'gray',
         fontWeight: "200"
+    },
+    boldText: {
+        fontSize: 20,
+        fontWeight: 'bold'
     }
 });
