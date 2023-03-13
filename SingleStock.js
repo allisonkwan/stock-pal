@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
@@ -194,7 +194,7 @@ export default function App() {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ScrollView>
         <StatusBar style="auto" />
         <Text style={styles.title}>{stockName}</Text>
         <Text style={styles.title}>${currStockPrice}</Text>
@@ -215,7 +215,7 @@ export default function App() {
           <CostAndTraction data={['Today', 'Hour', averageCost, 153.65, "2M", "79K"]} />
           <MentionsBreakdown data={['Hour', 70000]} />
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
