@@ -212,7 +212,6 @@ export default function App() {
           <Text>You selected: {radioButtons}</Text>
         </View>
         <View>
-          <Text style={styles.dataPointTimestamp}>Feb 11, 4:00 PM</Text>
           <CostAndTraction data={['Today', 'Hour', averageCost, 153.65, "2M", "79K"]} />
           <MentionsBreakdown data={['Hour', 70000]} />
         </View>
