@@ -198,19 +198,18 @@ export default function App() {
         <StatusBar style="auto" />
         <Text style={styles.title}>{stockName}</Text>
         <Text style={styles.title}>${currStockPrice}</Text>
-
-        <MyLineChart data={testData} />
         <View>
+          <Text style={{alignSelf: 'flex-end'}}>You selected: {radioButtons}</Text>
           <RadioGroup
-            radioButtons={radioButtonsData}
-            onPress={(value) => {
-              setValue(value);
-            }}
-            containerStyle={styles.radio}
-            layout='row'
+              radioButtons={radioButtonsData}
+              onPress={(value) => {
+                setValue(value);
+              }}
+              containerStyle={styles.radio}
+              layout='row'
           />
-          <Text>You selected: {radioButtons}</Text>
         </View>
+        <MyLineChart data={testData} />
         <View>
           <CostAndTraction data={['Today', 'Hour', averageCost, 153.65, "2M", "79K"]} />
           <MentionsBreakdown data={['Hour', 70000]} />

@@ -11,12 +11,8 @@ export function MyLineChart({ data }) {
             <LineChart
                 onDataPointClick={
                     (data) => {
-                        //console.log(data);
                         const dataPointIndex = data.index;
-                        //const timestamp = data.dataset.timestamp[dataPointIndex];
                         setTimestamp(data.dataset.timestamp[dataPointIndex]);
-                        //console.log(timestamp);
-                        //updateTimeStamp(timestamp);
                     }
                 }
                 data={dataValues}
