@@ -7,12 +7,21 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@expo/webpack-config": "^0.17.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^5.9.0",
-    "expo": "~47.0.12",
+    "@react-pdf/renderer": "^3.1.9",
+    "apify-client": "^2.6.4",
+    "assert": "^2.0.0",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
+    "expo": "^48.0.9",
     "expo-status-bar": "~1.4.2",
+    "finnhub": "^1.2.16",
+    "os": "^0.1.2",
+    "process": "^0.11.10",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -24,7 +33,10 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "react-native-table-component": "^1.2.2",
-    "react-native-web": "~0.18.9"
+    "react-native-web": "~0.18.9",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
