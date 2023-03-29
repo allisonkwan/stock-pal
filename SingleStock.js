@@ -9,18 +9,18 @@ import { MentionsBreakdown } from "./components/MentionsBreakdown";
 import { DataPoint } from "./components/DataPoint";
 
 export default function App() {
-  const datapoint0 = new DataPoint("Feb 00, 00:00", 830);
-  const datapoint1 = new DataPoint("Feb 01, 01:00", 762);
-  const datapoint2 = new DataPoint("Feb 02, 02:00", 810);
-  const datapoint3 = new DataPoint("Feb 03, 03:00", 700);
-  const datapoint4 = new DataPoint("Feb 04, 04:00", 723);
-  const datapoint5 = new DataPoint("Feb 05, 05:00", 493);
-  const datapoint6 = new DataPoint("Feb 06, 06:00", 677);
-  const datapoint7 = new DataPoint("Feb 07, 07:00", 641);
-  const datapoint8 = new DataPoint("Feb 08, 08:00", 509);
-  const datapoint9 = new DataPoint("Feb 09, 09:00", 213);
-  const datapoint10 = new DataPoint("Feb 10, 10:00", 198);
-  const datapoint11 = new DataPoint("Feb 11, 11:00", 29);
+  const datapoint0 = new DataPoint("Feb 00, 00:00", 830, 100.01, 277, 277, 277);
+  const datapoint1 = new DataPoint("Feb 01, 01:00", 762, 111.11, 254, 254, 254);
+  const datapoint2 = new DataPoint("Feb 02, 02:00", 810, 222.22, 270, 270, 270);
+  const datapoint3 = new DataPoint("Feb 03, 03:00", 700, 333.33, 233, 233, 233);
+  const datapoint4 = new DataPoint("Feb 04, 04:00", 723, 444.44, 241, 241, 241);
+  const datapoint5 = new DataPoint("Feb 05, 05:00", 493, 555.55, 164, 164, 164);
+  const datapoint6 = new DataPoint("Feb 06, 06:00", 677, 666.66, 225, 225, 225);
+  const datapoint7 = new DataPoint("Feb 07, 07:00", 641, 777.77, 213, 213, 213);
+  const datapoint8 = new DataPoint("Feb 08, 08:00", 509, 888.88, 169, 169, 169);
+  const datapoint9 = new DataPoint("Feb 09, 09:00", 213, 999.99, 71, 71, 71);
+  const datapoint10 = new DataPoint("Feb 10, 10:00", 198, 101.10, 66, 66, 66);
+  const datapoint11 = new DataPoint("Feb 11, 11:00", 29, 110.11, 9, 9, 9);
 
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -38,7 +38,9 @@ export default function App() {
           labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
           datasets: [
             {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4],
+              totalPeriod: 'Day',
+              intervalSize: 'Hour'
             },
           ],
         });
@@ -48,7 +50,9 @@ export default function App() {
           labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
           datasets: [
             {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6],
+              totalPeriod: 'Week',
+              intervalSize: 'Day'
             },
           ],
         });
@@ -58,7 +62,9 @@ export default function App() {
           labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
           datasets: [
             {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3]
+              data: [datapoint0, datapoint1, datapoint2, datapoint3],
+              totalPeriod: 'Month',
+              intervalSize: 'Week'
             },
           ],
         });
@@ -68,7 +74,9 @@ export default function App() {
           labels: ['Jan', 'Feb', 'Mar'],
           datasets: [
             {
-              data: [datapoint0, datapoint1, datapoint2]
+              data: [datapoint0, datapoint1, datapoint2],
+              totalPeriod: '3 Month',
+              intervalSize: 'Month'
             },
           ],
         });
@@ -79,7 +87,9 @@ export default function App() {
           datasets: [
             {
               data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-                datapoint8, datapoint9, datapoint10, datapoint11]
+                datapoint8, datapoint9, datapoint10, datapoint11],
+              totalPeriod: 'Year',
+              intervalSize: 'Month'
             },
           ],
         });
@@ -87,8 +97,6 @@ export default function App() {
     }
   }
 
-  //let averageCost = new Array(1);
-  const [averageCost, setAverageCost] = useState();
   function ApiRequest(stockTicker, multiplier, timespan, from, to) {
     //var api = new ApiRequest(data);
     let apiRequest = new XMLHttpRequest();
@@ -104,8 +112,6 @@ export default function App() {
       console.log(dat);
       console.log(dat.results[0]);
       console.log(dat.results[0].vw);
-      //averageCost[0] = dat.results[0].vw;
-      setAverageCost(dat.results[0].vw);
     }
     return;
   }
@@ -198,23 +204,18 @@ export default function App() {
         <StatusBar style="auto" />
         <Text style={styles.title}>{stockName}</Text>
         <Text style={styles.title}>${currStockPrice}</Text>
-
-        <MyLineChart data={testData} />
         <View>
+          <Text style={{alignSelf: 'flex-end'}}>You selected: {radioButtons}</Text>
           <RadioGroup
-            radioButtons={radioButtonsData}
-            onPress={(value) => {
-              setValue(value);
-            }}
-            containerStyle={styles.radio}
-            layout='row'
+              radioButtons={radioButtonsData}
+              onPress={(value) => {
+                setValue(value);
+              }}
+              containerStyle={styles.radio}
+              layout='row'
           />
-          <Text>You selected: {radioButtons}</Text>
         </View>
-        <View>
-          <CostAndTraction data={['Today', 'Hour', averageCost, 153.65, "2M", "79K"]} />
-          <MentionsBreakdown data={['Hour', 70000]} />
-        </View>
+        <MyLineChart data={testData} />
       </ScrollView>
     </SafeAreaView>
   );

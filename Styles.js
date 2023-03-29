@@ -35,6 +35,7 @@ export default StyleSheet.create({
     radio: {
         display: 'flex',
         alignItems: 'left',
+        alignSelf: 'center',
         width: '100%',
         wordWrap: 'break-word'
     },
