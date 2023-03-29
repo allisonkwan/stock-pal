@@ -355,17 +355,17 @@ export default function App() {
       var first_time = new Date(today);
       first_time.setDate(today.getDate() - 21);
       var temp1 = first_time.toISOString().split('T')[0];
-      temp1 = temp1 + ' 09:00:00';
+      temp1 = temp1 + ' 00:00:00';
 
       var second_time = new Date(today);
       second_time.setDate(today.getDate() - 14);
       var temp2 = second_time.toISOString().split('T')[0];
-      temp2 = temp2 + ' 09:00:00';
+      temp2 = temp2 + ' 00:00:00';
 
       var third_time = new Date(today);
       third_time.setDate(today.getDate() - 7);
       var temp3 = third_time.toISOString().split('T')[0];
-      temp3 = temp3 + ' 09:00:00';
+      temp3 = temp3 + ' 00:00:00';
 
       // aggregate and calculate actual points
       for (let i = 0; i < dat.reddit.length; i++)
@@ -398,6 +398,55 @@ export default function App() {
     let today_string = today.toISOString().split('T')[0];
     let three_month_string = three_month.toISOString().split('T')[0];
     console.log(three_month_string)
+
+    // fetch reddit mention graph data points
+    let apiRequest = new XMLHttpRequest();
+    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
+    let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
+    let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + three_month_string + '&to=' + today_string + '&token=' + api_key;
+    apiRequest.open("GET", request_url)
+    apiRequest.send();
+    apiRequest.onload = function () {
+      dat = JSON.parse(this.response)
+      console.log(dat);
+      console.log(request_url);
+      
+      var point0 = 0;
+      var point1 = 0;
+      var point2 = 0;
+
+      var first_time = new Date(today);
+      first_time.setDate(today.getDate() - 60);
+      var temp1 = first_time.toISOString().split('T')[0];
+      temp1 = temp1 + ' 00:00:00';
+
+      var second_time = new Date(today);
+      second_time.setDate(today.getDate() - 30);
+      var temp2 = second_time.toISOString().split('T')[0];
+      temp2 = temp2 + ' 09:00:00';
+
+      // aggregate and calculate actual points
+      for (let i = 0; i < dat.reddit.length; i++)
+      {
+        let temp = new Date(dat.reddit[i].atTime);
+        let temp_here = temp.toISOString().split('T')[0];
+
+        if(dat.reddit[i].atTime < temp1) {
+          point0 = point0 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp2) {
+          point1 = point1 + dat.reddit[i].mention;
+        } else {
+          point2 = point2 + dat.reddit[i].mention;
+        } 
+      }
+      console.log(temp1)
+      console.log(temp2)
+      console.log(point0);
+      console.log(point1);
+      console.log(point2);
+    }
+
+    // stock price call
     //ApiRequest('AAPL','3', 'month',three_month_string,today_string);
   } else if (radioButtons == '1Y') {
     const today = new Date();
@@ -408,6 +457,133 @@ export default function App() {
     let today_string = today.toISOString().split('T')[0];
     let last_year_string = last_year.toISOString().split('T')[0];
     console.log(last_year_string)
+
+    // fetch reddit mention graph data points
+    let apiRequest = new XMLHttpRequest();
+    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
+    let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
+    let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + last_year_string + '&to=' + today_string + '&token=' + api_key;
+    apiRequest.open("GET", request_url)
+    apiRequest.send();
+    apiRequest.onload = function () {
+      dat = JSON.parse(this.response)
+      console.log(dat);
+      console.log(request_url);
+      
+      var point0 = 0;
+      var point1 = 0;
+      var point2 = 0;
+      var point3 = 0;
+      var point4 = 0;
+      var point5 = 0;
+      var point6 = 0;
+      var point7 = 0;
+      var point8 = 0;
+      var point9 = 0;
+      var point10 = 0;
+      var point11 = 0;
+
+      var first_time = new Date(today);
+      first_time.setDate(today.getDate() - 330);
+      var temp1 = first_time.toISOString().split('T')[0];
+      temp1 = temp1 + ' 00:00:00';
+
+      var second_time = new Date(today);
+      second_time.setDate(today.getDate() - 300);
+      var temp2 = second_time.toISOString().split('T')[0];
+      temp2 = temp2 + ' 09:00:00';
+
+      var third_time = new Date(today);
+      third_time.setDate(today.getDate() - 270);
+      var temp3 = third_time.toISOString().split('T')[0];
+      temp3 = temp3 + ' 00:00:00';
+
+      var fourth_time = new Date(today);
+      fourth_time.setDate(today.getDate() - 240);
+      var temp4 = fourth_time.toISOString().split('T')[0];
+      temp4 = temp4 + ' 00:00:00';
+
+      var fifth_time = new Date(today);
+      fifth_time.setDate(today.getDate() - 210);
+      var temp5 = fifth_time.toISOString().split('T')[0];
+      temp5 = temp5 + ' 00:00:00';
+
+      var sixth_time = new Date(today);
+      sixth_time.setDate(today.getDate() - 180);
+      var temp6 = sixth_time.toISOString().split('T')[0];
+      temp6 = temp6 + ' 00:00:00';
+
+      var seventh_time = new Date(today);
+      seventh_time.setDate(today.getDate() - 150);
+      var temp7 = seventh_time.toISOString().split('T')[0];
+      temp7 = temp7 + ' 00:00:00';
+
+      var eighth_time = new Date(today);
+      eighth_time.setDate(today.getDate() - 120);
+      var temp8 = eighth_time.toISOString().split('T')[0];
+      temp8 = temp8 + ' 00:00:00';
+
+      var ninth_time = new Date(today);
+      ninth_time.setDate(today.getDate() - 90);
+      var temp9 = ninth_time.toISOString().split('T')[0];
+      temp9 = temp9 + ' 00:00:00';
+
+      var tenth_time = new Date(today);
+      tenth_time.setDate(today.getDate() - 60);
+      var temp10 = tenth_time.toISOString().split('T')[0];
+      temp10 = temp10 + ' 00:00:00';
+
+      var eleventh_time = new Date(today);
+      ninth_time.setDate(today.getDate() - 30);
+      var temp11 = ninth_time.toISOString().split('T')[0];
+      temp11 = temp11 + ' 00:00:00';
+
+      // aggregate and calculate actual points
+      for (let i = 0; i < dat.reddit.length; i++)
+      {
+        let temp = new Date(dat.reddit[i].atTime);
+        let temp_here = temp.toISOString().split('T')[0];
+
+        if(dat.reddit[i].atTime < temp1) {
+          point0 = point0 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp2) {
+          point1 = point1 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp3) {
+          point2 = point2 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp4) {
+          point3 = point3 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp5) {
+          point4 = point4 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp6) {
+          point5 = point5 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp7) {
+          point6 = point6 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp8) {
+          point7 = point7 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp9) {
+          point8 = point8 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp10) {
+          point9 = point9 + dat.reddit[i].mention;
+        } else if (dat.reddit[i].atTime < temp11) {
+          point10 = point10 + dat.reddit[i].mention;
+        } else {
+          point11 = point11 + dat.reddit[i].mention;
+        } 
+      }
+      console.log(point0);
+      console.log(point1);
+      console.log(point2);
+      console.log(point3);
+      console.log(point4);
+      console.log(point5);
+      console.log(point6);
+      console.log(point7);
+      console.log(point8);
+      console.log(point9);
+      console.log(point10);
+      console.log(point11);
+    }
+    // stock price call
     //ApiRequest('AAPL','1', 'year',last_year_string,today_string);
   }
   return (
