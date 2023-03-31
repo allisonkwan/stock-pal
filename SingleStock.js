@@ -10,7 +10,6 @@ import { DataPoint } from "./components/DataPoint";
 //import * as finhub from './node_modules/finnhub';
 
 export default function App() {
-  console.log("START");
   const datapoint0 = new DataPoint("Feb 00, 00:00", 830, 100.01, 277, 277, 277);
   const datapoint1 = new DataPoint("Feb 01, 01:00", 762, 111.11, 254, 254, 254);
   const datapoint2 = new DataPoint("Feb 02, 02:00", 810, 222.22, 270, 270, 270);
@@ -24,7 +23,7 @@ export default function App() {
   const datapoint10 = new DataPoint("Feb 10, 10:00", 198, 101.10, 66, 66, 66);
   const datapoint11 = new DataPoint("Feb 11, 11:00", 29, 110.11, 9, 9, 9);
 
-  masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
+  const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
 
   const [testData, setTestData] = useState({
     labels:  ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
@@ -36,15 +35,6 @@ export default function App() {
   });
 
   const [dataPoints, setDataPoints] = useState([]);
-
-  // const oldTestData = useRef({
-  //   labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
-  //   datasets: [
-  //     {
-  //       data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
-  //     },
-  //   ],
-  // });
 
   function ApiRequest(stockTicker, multiplier, timespan, from, to) {
     //var api = new ApiRequest(data);
@@ -203,7 +193,6 @@ export default function App() {
   }
 
   function updateDataPoints(mentionsData) {
-    console.log(radioButtons);
     if (radioButtons == '1D') {
     const today = new Date();
     const ytd = new Date(today);
@@ -349,8 +338,8 @@ export default function App() {
       console.log(point4);
       console.log(point5);
       console.log(point6);
-      setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
 
+      setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
 
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
@@ -619,21 +608,13 @@ export default function App() {
   for (let i = 0; i < mentionsData.length; i++) {
     dataPointsTemp.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
   } 
-  setDataPoints(dataPointsTemp);
-  // console.log("MENTIONS DATA");
-  // console.log(mentionsData);
-}
-
+  setDataPoints(dataPointsTemp);}
 
 useEffect(() => {
     updateDataPoints(mentionsData);
     filterChart(radioButtons);
 }, [radioButtons]);
 
-  // var hold = {...testData};
-
-  // console.log("TEST DATA");
-  // console.log(testData.datasets[0].data);
 
   return (
     <SafeAreaView style={styles.container}>
