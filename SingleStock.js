@@ -269,8 +269,8 @@ export default function App() {
     apiRequest.send();
     apiRequest.onload = function () {
       dat = JSON.parse(this.response)
-      // console.log(dat);
-      // console.log(request_url);
+      console.log(dat);
+      console.log(request_url);
       
       var point0 = 0;
       var point1 = 0;
