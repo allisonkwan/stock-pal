@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
@@ -26,10 +26,11 @@ export default function App() {
   const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
 
   const [testData, setTestData] = useState({
-    labels:  ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
-        data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
+        data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+          datapoint8, datapoint9, datapoint10, datapoint11]
       },
     ],
   });
@@ -115,18 +116,19 @@ export default function App() {
       value: '1Y',
     },
   ];
-  const [radioButtons, setRadioButtons] = useState('1D'); //pass in our data to this state. This will store the current user's choice
+  
+  const [radioButtons, setRadioButtons] = useState('1Y'); //pass in our data to this state. This will store the current user's choice
   const setValue = (value) => {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
 
-  const [mentionsData, setMentionsData] = useState([0, 0, 0, 0, 0]);
+  const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
   // console.log("LOGGING MENTIONS DATA");
   // useEffect(() => console.log(mentionsData), [mentionsData]);
 
-  function filterChart(time) { 
+  function filterChart(time, dataPoints) { 
     switch (time) {
     case '1D':
       setTestData({
@@ -192,7 +194,7 @@ export default function App() {
     }
   }
 
-  function updateDataPoints(mentionsData) {
+  function updateDataPoints(mentionsData, masterDataPoints) {
     if (radioButtons == '1D') {
     const today = new Date();
     const ytd = new Date(today);
@@ -243,11 +245,11 @@ export default function App() {
         } 
       }
       
-      // console.log(point0);
-      // console.log(point1);
-      // console.log(point2);
-      // console.log(point3);
-      // console.log(point4);
+      console.log(point0);
+      console.log(point1);
+      console.log(point2);
+      console.log(point3);
+      console.log(point4);
       // setMentionsData();
       setMentionsData([point0, point1, point2, point3, point4]);
     }
@@ -608,13 +610,25 @@ export default function App() {
   for (let i = 0; i < mentionsData.length; i++) {
     dataPointsTemp.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
   } 
-  setDataPoints(dataPointsTemp);}
+  console.log(dataPointsTemp);
+  setDataPoints(dataPointsTemp);
+ }
 
-useEffect(() => {
-    updateDataPoints(mentionsData);
-    filterChart(radioButtons);
-}, [radioButtons]);
+  useEffect(() => {
+    updateDataPoints(mentionsData, masterDataPoints);
+    filterChart(radioButtons, dataPoints);
+  }, [radioButtons]);
 
+  // if (isNaN(testData)) {
+  //   setTestData({
+  //     labels:  ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+  //     datasets: [
+  //       {
+  //         data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
+  //       },
+  //     ],
+  //   })
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
