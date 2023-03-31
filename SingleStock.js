@@ -23,6 +23,8 @@ export default function App() {
   const datapoint10 = new DataPoint("Feb 10, 10:00", 198);
   const datapoint11 = new DataPoint("Feb 11, 11:00", 29);
 
+  const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
+
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
@@ -32,69 +34,72 @@ export default function App() {
       },
     ],
   });
-  function filterChart(time) {
+
+  const [dataPoints, setDataPoints] = useState([]);
+
+  function filterChart(time, dataPoints) { 
     switch (time) {
-      case '1D':
-        setTestData({
-          labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
-          datasets: [
-            {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4],
-              totalPeriod: 'Day',
-              intervalSize: 'Hour'
-            },
-          ],
-        });
-        return;
-      case '1W':
-        setTestData({
-          labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
-          datasets: [
-            {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6],
-              totalPeriod: 'Week',
-              intervalSize: 'Day'
-            },
-          ],
-        });
-        return;
-      case '1M':
-        setTestData({
-          labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
-          datasets: [
-            {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3],
-              totalPeriod: 'Month',
-              intervalSize: 'Week'
-            },
-          ],
-        });
-        return;
-      case '3M':
-        setTestData({
-          labels: ['Jan', 'Feb', 'Mar'],
-          datasets: [
-            {
-              data: [datapoint0, datapoint1, datapoint2],
-              totalPeriod: '3 Month',
-              intervalSize: 'Month'
-            },
-          ],
-        });
-        return;
-      case '1Y':
-        setTestData({
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [
-            {
-              data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-                datapoint8, datapoint9, datapoint10, datapoint11],
-              totalPeriod: 'Year',
-              intervalSize: 'Month'
-            },
-          ],
-        });
-        return;
+    case '1D':
+      setTestData({
+        labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Day',
+            intervalSize: 'Hour'
+          },
+        ],
+      });
+      return;
+    case '1W':
+      setTestData({ 
+        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Week',
+            intervalSize: 'Day'
+          },
+        ],
+      });
+      return;
+    case '1M':
+      setTestData({
+        labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3],
+            totalPeriod: 'Month',
+            intervalSize: 'Week'
+          },
+        ],
+      });
+      return;
+    case '3M':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2],
+            totalPeriod: '3 Month',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
+    case '1Y':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+              datapoint8, datapoint9, datapoint10, datapoint11],
+            totalPeriod: 'Year',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
     }
   }
 
@@ -178,17 +183,16 @@ export default function App() {
       value: '1Y',
     },
   ];
+
   const [radioButtons, setRadioButtons] = useState('1Y'); //pass in our data to this state. This will store the current user's choice
   const setValue = (value) => {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
+  const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
-  useEffect(() => {
-    filterChart(radioButtons);
-  }, [radioButtons]);
-
-  if (radioButtons == '1D') {
+  function updateDataPoints(mentionsData, masterDataPoints) {
+    if (radioButtons == '1D') {
     const today = new Date();
     const ytd = new Date(today);
     today.setDate(today.getDate() - 1);
@@ -243,6 +247,7 @@ export default function App() {
       console.log(point2);
       console.log(point3);
       console.log(point4);
+      setMentionsData([point0, point1, point2, point3, point4]);
     }
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
@@ -331,6 +336,7 @@ export default function App() {
       console.log(point5);
       console.log(point6);
 
+      setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
     }
@@ -593,6 +599,18 @@ export default function App() {
     // stock price call
     //ApiRequest('AAPL','1', 'year',last_year_string,today_string);
   }
+  const dataPointsTemp = [];
+  for (let i = 0; i < mentionsData.length; i++) {
+    dataPointsTemp.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
+  } 
+  setDataPoints(dataPointsTemp);
+ }
+
+  useEffect(() => {
+    updateDataPoints(mentionsData, masterDataPoints);
+    filterChart(radioButtons, dataPoints);
+  }, [radioButtons]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
