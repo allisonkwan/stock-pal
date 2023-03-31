@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
