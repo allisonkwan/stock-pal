@@ -208,7 +208,7 @@ export default function App() {
     apiRequest.send();
     apiRequest.onload = function () {
       dat = JSON.parse(this.response)
-      // console.log(dat);
+      console.log(dat);
       //console.log(dat.reddit[0].atTime);
       
       var point0 = 0;
@@ -258,7 +258,7 @@ export default function App() {
     last_week.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
-    // console.log(last_week_string)
+    console.log(last_week_string)
     
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
@@ -630,7 +630,7 @@ export default function App() {
               layout='row'
           />
         </View>
-        <MyLineChart data={testData}/>
+        <MyLineChart data={testData} />
       </ScrollView>
     </SafeAreaView>
   );
