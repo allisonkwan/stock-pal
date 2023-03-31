@@ -6,16 +6,26 @@ import {CostAndTraction} from "./CostAndTraction";
 import {MentionsBreakdown} from "./MentionsBreakdown";
 
 export function MyLineChart({ data }) {
+    console.log("in mylinechart");
+    console.log(data);
     const dataValues = getDataValues(data);
+    console.log("after getDataValues");
+    // console.log(dataValues.datasets[0].data);
     const totalPeriod = data.datasets[0].totalPeriod;
     const intervalSize = data.datasets[0].intervalSize;
+
+
     const timestamps = dataValues.datasets[0].timestamp;
     const values = dataValues.datasets[0].data;
+
+
     const costs = dataValues.datasets[0].cost;
     const googleDatas = dataValues.datasets[0].googleData
     const redditDatas = dataValues.datasets[0].redditData
     const twitterDatas = dataValues.datasets[0].twitterData
     const maxIndex = dataValues.labels.length - 1 ;
+
+
     const averageCost = calculateAverage(costs);
     const totalTraction = calculateSum(values);
 
@@ -25,6 +35,8 @@ export function MyLineChart({ data }) {
     const [googleData, setGoogleData] = useState(googleDatas[maxIndex]);
     const [redditData, setRedditData] = useState(redditDatas[maxIndex]);
     const [twitterData, setTwitterData] = useState(twitterDatas[maxIndex]);
+
+    console.log("datavalues before data1");
 
     return (
         <View>
@@ -40,6 +52,17 @@ export function MyLineChart({ data }) {
                         setTwitterData(twitterDatas[dataPointIndex]);
                     }
                 }
+                // data={{
+                //     labels: dataValues.labels,
+                //     datasets: [{
+                //       data: dataValues.datasets[0].data,
+                //       timestamp: dataValues.datasets[0].timestamp,
+                //       cost: dataValues.datasets[0].cost,
+                //       googleData: dataValues.datasets[0].googleData,
+                //       redditData: dataValues.datasets[0].redditData,
+                //       twitterData: dataValues.datasets[0].twitterData,
+                //     }]
+                // }}
                 data={dataValues}
                 width={Dimensions.get('window').width}
                 height={200}
@@ -60,13 +83,25 @@ export function MyLineChart({ data }) {
 
 function getDataValues(data) {
     const dataPoints = data.datasets[0].data;
+
+    console.log("dataPoints");
+    console.log(dataPoints);
     const dataValues = [];
+
+    console.log("dataPoint value");
+
+    console.log(dataPoints[0].value);
     dataPoints.forEach(dataPoint => dataValues.push(dataPoint.value));
     const timestamps = [];
+
+    console.log("dataValues");
+    console.log(dataValues);
     dataPoints.forEach(dataPoint => timestamps.push(dataPoint.timestamp));
     const costs = [];
     dataPoints.forEach(dataPoint => costs.push(dataPoint.cost));
+
     const googleDatas = [];
+
     dataPoints.forEach(dataPoint => googleDatas.push(dataPoint.googleData));
     const redditDatas = [];
     dataPoints.forEach(dataPoint => redditDatas.push(dataPoint.redditData));
@@ -83,7 +118,10 @@ function getDataValues(data) {
             redditData: redditDatas,
             twitterData: twitterDatas
         }]
-    }
+    };
+
+    console.log(cleanedData);
+
     return cleanedData;
 }
 
