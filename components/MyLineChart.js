@@ -1,15 +1,22 @@
 import { View, Dimensions, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { LineChart } from 'react-native-chart-kit'
 import styles from "../Styles";
 import {CostAndTraction} from "./CostAndTraction";
 import {MentionsBreakdown} from "./MentionsBreakdown";
 
 export function MyLineChart({ data }) {
-    console.log("in mylinechart");
-    console.log(data);
+    // console.log("in mylinechart");
+    // useEffect(() => {
+    //   console.log(data.datasets[0].data);
+    // }, [data]);
+    // console.log(data.datasets[0]);
+    // useEffect(() => console.log(mentionsData));
+    // console.log(mentionsData);
     const dataValues = getDataValues(data);
-    console.log("after getDataValues");
+
+    // console.log("after getDataValues");
+    // console.log(dataValues.datasets[0].data);
     // console.log(dataValues.datasets[0].data);
     const totalPeriod = data.datasets[0].totalPeriod;
     const intervalSize = data.datasets[0].intervalSize;
@@ -18,6 +25,7 @@ export function MyLineChart({ data }) {
     const timestamps = dataValues.datasets[0].timestamp;
     const values = dataValues.datasets[0].data;
 
+    // console.log("HERE2");  
 
     const costs = dataValues.datasets[0].cost;
     const googleDatas = dataValues.datasets[0].googleData
@@ -36,7 +44,10 @@ export function MyLineChart({ data }) {
     const [redditData, setRedditData] = useState(redditDatas[maxIndex]);
     const [twitterData, setTwitterData] = useState(twitterDatas[maxIndex]);
 
-    console.log("datavalues before data1");
+    // console.log("datavalues before data1");
+    // console.log(dataValues.datasets[0].data);
+
+    // console.log("RERENDERING");
 
     return (
         <View>
@@ -84,18 +95,20 @@ export function MyLineChart({ data }) {
 function getDataValues(data) {
     const dataPoints = data.datasets[0].data;
 
-    console.log("dataPoints");
-    console.log(dataPoints);
+    // console.log("dataPoints");
+    // console.log(dataPoints);
     const dataValues = [];
 
-    console.log("dataPoint value");
+    // console.log("FNSDKJFNAKJDNFLAKJDFN");
 
-    console.log(dataPoints[0].value);
+    // console.log("dataPoint value");
+
+    // console.log(dataPoints[0].value);
     dataPoints.forEach(dataPoint => dataValues.push(dataPoint.value));
     const timestamps = [];
 
-    console.log("dataValues");
-    console.log(dataValues);
+    // console.log("dataValues");
+    // console.log(dataValues);
     dataPoints.forEach(dataPoint => timestamps.push(dataPoint.timestamp));
     const costs = [];
     dataPoints.forEach(dataPoint => costs.push(dataPoint.cost));
@@ -120,7 +133,7 @@ function getDataValues(data) {
         }]
     };
 
-    console.log(cleanedData);
+    // console.log(cleanedData);
 
     return cleanedData;
 }
