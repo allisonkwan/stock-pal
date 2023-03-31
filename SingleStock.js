@@ -10,6 +10,7 @@ import { DataPoint } from "./components/DataPoint";
 //import * as finhub from './node_modules/finnhub';
 
 export default function App() {
+  console.log("START");
   const datapoint0 = new DataPoint("Feb 00, 00:00", 830, 100.01, 277, 277, 277);
   const datapoint1 = new DataPoint("Feb 01, 01:00", 762, 111.11, 254, 254, 254);
   const datapoint2 = new DataPoint("Feb 02, 02:00", 810, 222.22, 270, 270, 270);
@@ -33,6 +34,8 @@ export default function App() {
       },
     ],
   });
+
+  const [dataPoints, setDataPoints] = useState([]);
 
   // const oldTestData = useRef({
   //   labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
@@ -130,7 +133,76 @@ export default function App() {
 
   const [mentionsData, setMentionsData] = useState([0, 0, 0, 0, 0]);
 
-  function filterChart(time) {
+  // console.log("LOGGING MENTIONS DATA");
+  // useEffect(() => console.log(mentionsData), [mentionsData]);
+
+  function filterChart(time) { 
+    switch (time) {
+    case '1D':
+      setTestData({
+        labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Day',
+            intervalSize: 'Hour'
+          },
+        ],
+      });
+      return;
+    case '1W':
+      setTestData({ 
+        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Week',
+            intervalSize: 'Day'
+          },
+        ],
+      });
+      return;
+    case '1M':
+      setTestData({
+        labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3],
+            totalPeriod: 'Month',
+            intervalSize: 'Week'
+          },
+        ],
+      });
+      return;
+    case '3M':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2],
+            totalPeriod: '3 Month',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
+    case '1Y':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+              datapoint8, datapoint9, datapoint10, datapoint11],
+            totalPeriod: 'Year',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
+    }
+  }
+
+  function updateDataPoints(mentionsData) {
     console.log(radioButtons);
     if (radioButtons == '1D') {
     const today = new Date();
@@ -187,9 +259,10 @@ export default function App() {
       // console.log(point2);
       // console.log(point3);
       // console.log(point4);
-      setMentionsData([point0, point1, point2, point3, point4]);
       // setMentionsData();
+      setMentionsData([point0, point1, point2, point3, point4]);
     }
+
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
   } else if (radioButtons == '1W') {
@@ -269,20 +342,20 @@ export default function App() {
         } 
       }
       
-      // console.log(point0);
-      // console.log(point1);
-      // console.log(point2);
-      // console.log(point3);
-      // console.log(point4);
-      // console.log(point5);
-      // console.log(point6);
+      console.log(point0);
+      console.log(point1);
+      console.log(point2);
+      console.log(point3);
+      console.log(point4);
+      console.log(point5);
+      console.log(point6);
       setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
-      // setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
 
 
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
     }
+    // setMentionsData([0, 1, 2, 3, 4, 5, 6]);
   } else if (radioButtons == '1M') {
     const today = new Date();
     const last_month = new Date(today);
@@ -542,84 +615,25 @@ export default function App() {
     // stock price call
     //ApiRequest('AAPL','1', 'year',last_year_string,today_string);
   }
-  console.log("MENTIONS DATA");
-  console.log(mentionsData);
-  const dataPoints = [];
+  const dataPointsTemp = [];
   for (let i = 0; i < mentionsData.length; i++) {
-    dataPoints.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
-  }  
+    dataPointsTemp.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
+  } 
+  setDataPoints(dataPointsTemp);
+  // console.log("MENTIONS DATA");
+  // console.log(mentionsData);
+}
 
-  switch (time) {
-    case '1D':
-      setTestData({
-        labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
-        datasets: [
-          {
-            data: dataPoints,
-            totalPeriod: 'Day',
-            intervalSize: 'Hour'
-          },
-        ],
-      });
-      return;
-    case '1W':
-      setTestData({ 
-        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
-        datasets: [
-          {
-            data: dataPoints,
-            totalPeriod: 'Week',
-            intervalSize: 'Day'
-          },
-        ],
-      });
-      return;
-    case '1M':
-      setTestData({
-        labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2, datapoint3],
-            totalPeriod: 'Month',
-            intervalSize: 'Week'
-          },
-        ],
-      });
-      return;
-    case '3M':
-      setTestData({
-        labels: ['Jan', 'Feb', 'Mar'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2],
-            totalPeriod: '3 Month',
-            intervalSize: 'Month'
-          },
-        ],
-      });
-      return;
-    case '1Y':
-      setTestData({
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-              datapoint8, datapoint9, datapoint10, datapoint11],
-            totalPeriod: 'Year',
-            intervalSize: 'Month'
-          },
-        ],
-      });
-      return;
-    }
-  }
 
-  useEffect(() => {
+useEffect(() => {
+    updateDataPoints(mentionsData);
     filterChart(radioButtons);
-  }, [radioButtons]);
+}, [radioButtons]);
 
-  console.log("TEST DATA");
-  console.log(testData.datasets[0].data);
+  // var hold = {...testData};
+
+  // console.log("TEST DATA");
+  // console.log(testData.datasets[0].data);
 
   return (
     <SafeAreaView style={styles.container}>
