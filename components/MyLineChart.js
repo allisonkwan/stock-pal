@@ -1,5 +1,5 @@
 import { View, Dimensions, Text } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { LineChart } from 'react-native-chart-kit'
 import styles from "../Styles";
 import {CostAndTraction} from "./CostAndTraction";
@@ -7,21 +7,15 @@ import {MentionsBreakdown} from "./MentionsBreakdown";
 
 export function MyLineChart({ data }) {
     const dataValues = getDataValues(data);
-
     const totalPeriod = data.datasets[0].totalPeriod;
     const intervalSize = data.datasets[0].intervalSize;
-
-
     const timestamps = dataValues.datasets[0].timestamp;
     const values = dataValues.datasets[0].data;
-
     const costs = dataValues.datasets[0].cost;
     const googleDatas = dataValues.datasets[0].googleData
     const redditDatas = dataValues.datasets[0].redditData
     const twitterDatas = dataValues.datasets[0].twitterData
     const maxIndex = dataValues.labels.length - 1 ;
-
-
     const averageCost = calculateAverage(costs);
     const totalTraction = calculateSum(values);
 
@@ -69,13 +63,10 @@ function getDataValues(data) {
     const dataValues = [];
     dataPoints.forEach(dataPoint => dataValues.push(dataPoint.value));
     const timestamps = [];
-
     dataPoints.forEach(dataPoint => timestamps.push(dataPoint.timestamp));
     const costs = [];
     dataPoints.forEach(dataPoint => costs.push(dataPoint.cost));
-
     const googleDatas = [];
-
     dataPoints.forEach(dataPoint => googleDatas.push(dataPoint.googleData));
     const redditDatas = [];
     dataPoints.forEach(dataPoint => redditDatas.push(dataPoint.redditData));
@@ -92,8 +83,7 @@ function getDataValues(data) {
             redditData: redditDatas,
             twitterData: twitterDatas
         }]
-    };
-
+    }
     return cleanedData;
 }
 
