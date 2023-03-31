@@ -37,6 +37,72 @@ export default function App() {
 
   const [dataPoints, setDataPoints] = useState([]);
 
+  function filterChart(time, dataPoints) { 
+    switch (time) {
+    case '1D':
+      setTestData({
+        labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Day',
+            intervalSize: 'Hour'
+          },
+        ],
+      });
+      return;
+    case '1W':
+      setTestData({ 
+        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+        datasets: [
+          {
+            data: dataPoints,
+            totalPeriod: 'Week',
+            intervalSize: 'Day'
+          },
+        ],
+      });
+      return;
+    case '1M':
+      setTestData({
+        labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3],
+            totalPeriod: 'Month',
+            intervalSize: 'Week'
+          },
+        ],
+      });
+      return;
+    case '3M':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2],
+            totalPeriod: '3 Month',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
+    case '1Y':
+      setTestData({
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
+              datapoint8, datapoint9, datapoint10, datapoint11],
+            totalPeriod: 'Year',
+            intervalSize: 'Month'
+          },
+        ],
+      });
+      return;
+    }
+  }
+
   function ApiRequest(stockTicker, multiplier, timespan, from, to) {
     //var api = new ApiRequest(data);
     let apiRequest = new XMLHttpRequest();
@@ -122,74 +188,7 @@ export default function App() {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
-
   const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
-
-  function filterChart(time, dataPoints) { 
-    switch (time) {
-    case '1D':
-      setTestData({
-        labels: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
-        datasets: [
-          {
-            data: dataPoints,
-            totalPeriod: 'Day',
-            intervalSize: 'Hour'
-          },
-        ],
-      });
-      return;
-    case '1W':
-      setTestData({ 
-        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
-        datasets: [
-          {
-            data: dataPoints,
-            totalPeriod: 'Week',
-            intervalSize: 'Day'
-          },
-        ],
-      });
-      return;
-    case '1M':
-      setTestData({
-        labels: ['Jan 1', 'Jan 10', 'Jan 20', 'Jan 30'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2, datapoint3],
-            totalPeriod: 'Month',
-            intervalSize: 'Week'
-          },
-        ],
-      });
-      return;
-    case '3M':
-      setTestData({
-        labels: ['Jan', 'Feb', 'Mar'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2],
-            totalPeriod: '3 Month',
-            intervalSize: 'Month'
-          },
-        ],
-      });
-      return;
-    case '1Y':
-      setTestData({
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [
-          {
-            data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-              datapoint8, datapoint9, datapoint10, datapoint11],
-            totalPeriod: 'Year',
-            intervalSize: 'Month'
-          },
-        ],
-      });
-      return;
-    }
-  }
 
   function updateDataPoints(mentionsData, masterDataPoints) {
     if (radioButtons == '1D') {
