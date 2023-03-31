@@ -144,6 +144,7 @@ export default function App() {
       //setAverageCost(dat.results[0].vw);
     }
     
+
     //const api_key = finnhub.ApiClient.instance.authentications['api_key'];
     //api_key.apiKey = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0" // Replace this
     //const finnhubClient = new finnhub.DefaultApi()
@@ -182,7 +183,7 @@ export default function App() {
       value: '1Y',
     },
   ];
-  
+
   const [radioButtons, setRadioButtons] = useState('1Y'); //pass in our data to this state. This will store the current user's choice
   const setValue = (value) => {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
@@ -246,10 +247,8 @@ export default function App() {
       console.log(point2);
       console.log(point3);
       console.log(point4);
-      // setMentionsData();
       setMentionsData([point0, point1, point2, point3, point4]);
     }
-
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
   } else if (radioButtons == '1W') {
@@ -338,7 +337,6 @@ export default function App() {
       console.log(point6);
 
       setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
-
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
     }
