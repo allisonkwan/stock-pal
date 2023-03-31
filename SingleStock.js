@@ -125,9 +125,6 @@ export default function App() {
 
   const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
-  // console.log("LOGGING MENTIONS DATA");
-  // useEffect(() => console.log(mentionsData), [mentionsData]);
-
   function filterChart(time, dataPoints) { 
     switch (time) {
     case '1D':
@@ -346,7 +343,6 @@ export default function App() {
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
     }
-    // setMentionsData([0, 1, 2, 3, 4, 5, 6]);
   } else if (radioButtons == '1M') {
     const today = new Date();
     const last_month = new Date(today);
@@ -610,7 +606,6 @@ export default function App() {
   for (let i = 0; i < mentionsData.length; i++) {
     dataPointsTemp.push(new DataPoint(masterDataPoints[i].timestamp, mentionsData[i], masterDataPoints[i].cost, masterDataPoints[i].googleData, masterDataPoints[i].redditData, masterDataPoints[i].twitterData));
   } 
-  console.log(dataPointsTemp);
   setDataPoints(dataPointsTemp);
  }
 
@@ -618,17 +613,6 @@ export default function App() {
     updateDataPoints(mentionsData, masterDataPoints);
     filterChart(radioButtons, dataPoints);
   }, [radioButtons]);
-
-  // if (isNaN(testData)) {
-  //   setTestData({
-  //     labels:  ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'],
-  //     datasets: [
-  //       {
-  //         data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4]
-  //       },
-  //     ],
-  //   })
-  // }
 
   return (
     <SafeAreaView style={styles.container}>
