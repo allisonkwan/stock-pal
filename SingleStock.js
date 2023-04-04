@@ -10,18 +10,18 @@ import { DataPoint } from "./components/DataPoint";
 //import * as finhub from './node_modules/finnhub';
 
 export default function App() {
-  const datapoint0 = new DataPoint("Feb 00, 00:00", 830);
-  const datapoint1 = new DataPoint("Feb 01, 01:00", 762);
-  const datapoint2 = new DataPoint("Feb 02, 02:00", 810);
-  const datapoint3 = new DataPoint("Feb 03, 03:00", 700);
-  const datapoint4 = new DataPoint("Feb 04, 04:00", 723);
-  const datapoint5 = new DataPoint("Feb 05, 05:00", 493);
-  const datapoint6 = new DataPoint("Feb 06, 06:00", 677);
-  const datapoint7 = new DataPoint("Feb 07, 07:00", 641);
-  const datapoint8 = new DataPoint("Feb 08, 08:00", 509);
-  const datapoint9 = new DataPoint("Feb 09, 09:00", 213);
-  const datapoint10 = new DataPoint("Feb 10, 10:00", 198);
-  const datapoint11 = new DataPoint("Feb 11, 11:00", 29);
+  const datapoint0 = new DataPoint("Feb 00, 00:00", 830, 100.01, 277, 277, 277);
+  const datapoint1 = new DataPoint("Feb 01, 01:00", 762, 111.11, 254, 254, 254);
+  const datapoint2 = new DataPoint("Feb 02, 02:00", 810, 222.22, 270, 270, 270);
+  const datapoint3 = new DataPoint("Feb 03, 03:00", 700, 333.33, 233, 233, 233);
+  const datapoint4 = new DataPoint("Feb 04, 04:00", 723, 444.44, 241, 241, 241);
+  const datapoint5 = new DataPoint("Feb 05, 05:00", 493, 555.55, 164, 164, 164);
+  const datapoint6 = new DataPoint("Feb 06, 06:00", 677, 666.66, 225, 225, 225);
+  const datapoint7 = new DataPoint("Feb 07, 07:00", 641, 777.77, 213, 213, 213);
+  const datapoint8 = new DataPoint("Feb 08, 08:00", 509, 888.88, 169, 169, 169);
+  const datapoint9 = new DataPoint("Feb 09, 09:00", 213, 999.99, 71, 71, 71);
+  const datapoint10 = new DataPoint("Feb 10, 10:00", 198, 101.10, 66, 66, 66);
+  const datapoint11 = new DataPoint("Feb 11, 11:00", 29, 110.11, 9, 9, 9);
 
   const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
 
