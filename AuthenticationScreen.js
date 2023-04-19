@@ -2,18 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 import { auth } from './firebase';
 import { useNavigation } from '@react-navigation/core';
+import * as SQLite from 'expo-sqlite';
 
 const AuthenticationScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
+
+  const db = SQLite.openDatabase('test.db')
+  const [isLoading, setIsLoading] = useState(true);
+  const [names, setNames] = useState([]);
+  const [currentName, setCurrentName] = useState(undefined);
+  const showNames = () => {
+    return names.map((name, index) => {
+      return (
+        <View>
+          <Text>{name.name}</Text>
+        </View>
+      )
+    });
+  }
+
   useEffect(() => {
+    console.log('here');
+    db.transaction(tx=> {
+      tx.executeSql('CREATE TABLE IF NOT EXISTS names (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT);')
+    });
+
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM names', null,
+        (txObj, resultSet) => setNames(resultSet.rows._array),
+        (txObj, error) => console.log(error)
+      );
+    });
+    setIsLoading(false);
     const unsubscribe = auth.onAuthStateChanged(user => {
       if(user) {
         navigation.navigate("Home")
       }
     })
-
     return unsubscribe
   }, [])
 
@@ -23,6 +50,17 @@ const AuthenticationScreen = () => {
     .then(userCredentials => {
       const user = userCredentials.user;
       console.log(user.email);
+      db.transaction(tx => {
+        tx.executeSql('INSERT INTO names (email) values (?);', auth.currentUser?.email,
+          (txObj, resultSet) => {
+            let existingNames = [...names];
+            existingNames.push({id: resultSet.isertId, name: auth.currentUser?.email});
+            setNames(existingNames);
+            setCurrentName(undefined);
+          },
+          (txObj, error) => console.log(error)
+        );
+      });
     })
     .catch(error => alert(error.message))
   }
@@ -37,6 +75,7 @@ const AuthenticationScreen = () => {
     .catch(error => alert(error.message))
   }
   return (
+    
     <KeyboardAvoidingView
       style={styles.container}
       behavior="padding">
@@ -69,6 +108,7 @@ const AuthenticationScreen = () => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
+        {showNames()}
       </View>
       
     </KeyboardAvoidingView>
@@ -122,62 +162,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   }
 })
-
-    /*function LoginApp() {
-        const [initializing, setInitializing] = useState(true)
-        const [user, setUser] = useState();
-
-        function onAuthStateChanged(user) {
-        setUser(user);
-        if (initializing) setInitializing(false);
-        }
-
-        useEffect(() => {
-            const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-            return subscriber;
-        }, []);
-
-        if (initializing) return null;
-
-        if (!user) {
-            return (
-                <View>
-                <Text>Login</Text>
-                </View>
-            )
-        }
-    }
-
-    createUser = () => {
-      auth()
-        .signInWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-        .then(() => {
-          console.log('User account created & signed in!');
-        })
-        .catch(error => {
-          if (error.code === 'auth/email-already-in-use') {
-            console.log('That email address is already in use!');
-          }
-
-          if (error.code === 'auth/invalid-email') {
-            console.log('That email address is invalid!');
-          }
-
-          console.error(error);
-        });
-    }
-
-    logoff = () => {
-        auth()
-        .signOut()
-        .then(() => console.log('User signed out!'));
-    }
-
-    return (
-      <View style={Styles.container}>
-        <LoginApp />
-        <Button title="Create User" onPress={this.createUser} />
-        <Button title="Logoff" onPress={this.logoff} />
-      </View>
-        
-    );*/
