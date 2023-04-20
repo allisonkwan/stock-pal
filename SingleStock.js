@@ -24,12 +24,19 @@ export default function App() {
 
   const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
 
+  const [search, setSearch] = useState('AAPL'); // dynamic value which is updated as user types each letter in search bar
+  const updateSearch = (search) => {
+    setSearch(search);
+  };
+  const [stock, setStock] = useState('AAPL'); // the final value, updated when user hits "return" on mobile keyboard
+
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
         data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-          datapoint8, datapoint9, datapoint10, datapoint11]
+          datapoint8, datapoint9, datapoint10, datapoint11],
+        ticker: stock
       },
     ],
   });
@@ -45,7 +52,8 @@ export default function App() {
           {
             data: dataPoints,
             totalPeriod: 'Day',
-            intervalSize: 'Hour'
+            intervalSize: 'Hour',
+            ticker: stock
           },
         ],
       });
@@ -57,7 +65,8 @@ export default function App() {
           {
             data: dataPoints,
             totalPeriod: 'Week',
-            intervalSize: 'Day'
+            intervalSize: 'Day',
+            ticker: stock
           },
         ],
       });
@@ -69,7 +78,8 @@ export default function App() {
           {
             data: [datapoint0, datapoint1, datapoint2, datapoint3],
             totalPeriod: 'Month',
-            intervalSize: 'Week'
+            intervalSize: 'Week',
+            ticker: stock
           },
         ],
       });
@@ -81,7 +91,8 @@ export default function App() {
           {
             data: [datapoint0, datapoint1, datapoint2],
             totalPeriod: '3 Month',
-            intervalSize: 'Month'
+            intervalSize: 'Month',
+            ticker: stock
           },
         ],
       });
@@ -94,7 +105,8 @@ export default function App() {
             data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
               datapoint8, datapoint9, datapoint10, datapoint11],
             totalPeriod: 'Year',
-            intervalSize: 'Month'
+            intervalSize: 'Month',
+            ticker: stock
           },
         ],
       });
@@ -153,11 +165,6 @@ export default function App() {
     return;
   }*/
 
-  const [search, setSearch] = useState('APPL'); // dynamic value which is updated as user types each letter in search bar
-  const updateSearch = (search) => {
-    setSearch(search);
-  };
-  const [stock, setStock] = useState('APPL'); // the final value, updated when user hits "return" on mobile keyboard
   const currStockPrice = 151.23;
   const radioButtonsData = [
     {

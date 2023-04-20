@@ -19,7 +19,7 @@ export default function HomeScreen({navigation}) {
     const tableData = {
         HeadTable: ['Stock', 'Price'],
         DataTable: [
-            ['APPL', '$108.23'],
+            ['AAPL', '$108.23'],
             ['MSFT', '$265.91'],
             ['TSLA', '$194.51']
         ]
@@ -29,8 +29,8 @@ export default function HomeScreen({navigation}) {
       <ScrollView>
         <Card style={styles.traction}>
             <Card.Content style={styles.descriptionAndValue}>
-                <Title>Daily Highest Traction</Title>
-                <MentionsBreakdown data={['Hour', 70000]} />
+                <Title>Daily Highest Traction: AAPL</Title>
+                <MentionsBreakdown data={['Hour', 9, 9, 9, 'AAPL']} />
             </Card.Content>
             <Card.Actions>
             <Button

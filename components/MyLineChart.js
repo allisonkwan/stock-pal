@@ -18,6 +18,7 @@ export function MyLineChart({ data }) {
     const maxIndex = dataValues.labels.length - 1 ;
     const averageCost = calculateAverage(costs);
     const totalTraction = calculateSum(values);
+    const ticker = data.datasets[0].ticker;
 
     const [timestamp, setTimestamp] = useState(timestamps[maxIndex]);
     const [value, setValue] = useState(values[maxIndex]);
@@ -52,7 +53,7 @@ export function MyLineChart({ data }) {
             <Text style={styles.dataPointTimestamp}>{timestamp}</Text>
             <CostAndTraction data={[totalPeriod, intervalSize, averageCost, cost, totalTraction, value]} />
             <View>
-                <MentionsBreakdown data={[intervalSize, googleData, redditData, twitterData]} />
+                <MentionsBreakdown data={[intervalSize, googleData, redditData, twitterData, ticker]} />
             </View>
         </View>
     )
