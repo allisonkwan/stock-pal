@@ -634,7 +634,6 @@ export default function App() {
           value={search}
         />
         <Text style={styles.title}>{stock}</Text>
-        <Text style={styles.title}>${currStockPrice}</Text>
         <View>
           <Text style={{alignSelf: 'flex-end'}}>You selected: {radioButtons}</Text>
           <RadioGroup
