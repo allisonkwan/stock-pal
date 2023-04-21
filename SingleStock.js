@@ -253,10 +253,12 @@ export default function App() {
   } else if (radioButtons == '1W') {
     const today = new Date();
     const last_week = new Date(today);
-    today.setDate(today.getDate() - 7);
     last_week.setDate(today.getDate() - 14);
+    today.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
+    console.log(today_string);
+    console.log(last_week_string);
     
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
