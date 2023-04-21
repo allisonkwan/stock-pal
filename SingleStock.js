@@ -35,7 +35,7 @@ export default function App() {
     ],
   });
 
-  const [dataPoints, setDataPoints] = useState([1, 0, 0, 0, 0]);
+  const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
   function filterChart(time, dataPoints) { 
     switch (time) {
@@ -201,7 +201,7 @@ export default function App() {
 
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
-    let api_key = "cgivem9r01qoenkm1umgcgivem9r01qoenkm1un0"
+    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
     let request_url = rest_baseurl + 'symbol=' + 'AAPL' + '&from=' + ytd_string + '&to=' + ytd_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
@@ -351,7 +351,7 @@ export default function App() {
 
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
-    let api_key = "cgivem9r01qoenkm1umgcgivem9r01qoenkm1un0"
+    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
     let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + last_month_string + '&to=' + today_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
@@ -606,8 +606,6 @@ export default function App() {
   } 
   setDataPoints(dataPointsTemp);
  }
-
-  const [mentionsData, setMentionsData] = useState([1, 0, 0, 0, 0]);
 
   useEffect(() => {
     updateDataPoints(mentionsData, masterDataPoints);
