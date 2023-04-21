@@ -35,6 +35,7 @@ export default function App() {
     ],
   });
 
+  const [dataPoints, setDataPoints] = useState([]);
 
   function filterChart(time, dataPoints) { 
     switch (time) {
@@ -258,7 +259,7 @@ export default function App() {
     today.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
-    console.log(last_week_string);
+    console.log(last_week_string)
     
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
