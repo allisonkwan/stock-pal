@@ -35,7 +35,6 @@ export default function App() {
     ],
   });
 
-  const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
   function filterChart(time, dataPoints) { 
     switch (time) {
@@ -190,6 +189,8 @@ export default function App() {
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
 
+  const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
+
   function updateDataPoints(mentionsData, masterDataPoints) {
     if (radioButtons == '1D') {
     const today = new Date();
@@ -257,15 +258,14 @@ export default function App() {
     today.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
-    console.log(today_string);
     console.log(last_week_string);
     
     // fetch reddit mention graph data points
     let apiRequest = new XMLHttpRequest();
-    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0";
+    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
     let request_url = rest_baseurl + 'symbol=' + 'AAPL' + '&from=' + last_week_string + '&to=' + today_string + '&token=' + api_key;
-    apiRequest.open("GET", request_url);
+    apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
       dat = JSON.parse(this.response)
