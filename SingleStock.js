@@ -4,8 +4,7 @@ import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import styles from './Styles';
 import { MyLineChart } from './components/MyLineChart';
-import { CostAndTraction } from "./components/CostAndTraction";
-import { MentionsBreakdown } from "./components/MentionsBreakdown";
+import { SearchBar } from '@rneui/themed';
 import { DataPoint } from "./components/DataPoint";
 //import * as finhub from './node_modules/finnhub';
 
@@ -25,12 +24,19 @@ export default function App() {
 
   const masterDataPoints = [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7, datapoint8, datapoint9, datapoint10, datapoint11];
 
+  const [search, setSearch] = useState('AAPL'); // dynamic value which is updated as user types each letter in search bar
+  const updateSearch = (search) => {
+    setSearch(search);
+  };
+  const [stock, setStock] = useState('AAPL'); // the final value, updated when user hits "return" on mobile keyboard
+
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
         data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
-          datapoint8, datapoint9, datapoint10, datapoint11]
+          datapoint8, datapoint9, datapoint10, datapoint11],
+        ticker: stock
       },
     ],
   });
@@ -46,7 +52,8 @@ export default function App() {
           {
             data: dataPoints,
             totalPeriod: 'Day',
-            intervalSize: 'Hour'
+            intervalSize: 'Hour',
+            ticker: stock
           },
         ],
       });
@@ -58,7 +65,8 @@ export default function App() {
           {
             data: dataPoints,
             totalPeriod: 'Week',
-            intervalSize: 'Day'
+            intervalSize: 'Day',
+            ticker: stock
           },
         ],
       });
@@ -70,7 +78,8 @@ export default function App() {
           {
             data: [datapoint0, datapoint1, datapoint2, datapoint3],
             totalPeriod: 'Month',
-            intervalSize: 'Week'
+            intervalSize: 'Week',
+            ticker: stock
           },
         ],
       });
@@ -82,7 +91,8 @@ export default function App() {
           {
             data: [datapoint0, datapoint1, datapoint2],
             totalPeriod: '3 Month',
-            intervalSize: 'Month'
+            intervalSize: 'Month',
+            ticker: stock
           },
         ],
       });
@@ -95,7 +105,8 @@ export default function App() {
             data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
               datapoint8, datapoint9, datapoint10, datapoint11],
             totalPeriod: 'Year',
-            intervalSize: 'Month'
+            intervalSize: 'Month',
+            ticker: stock
           },
         ],
       });
@@ -154,7 +165,6 @@ export default function App() {
     return;
   }*/
 
-  const stockName = 'APPL';
   const currStockPrice = 151.23;
   const radioButtonsData = [
     {
@@ -205,7 +215,7 @@ export default function App() {
     let apiRequest = new XMLHttpRequest();
     let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + 'AAPL' + '&from=' + ytd_string + '&to=' + ytd_string + '&token=' + api_key;
+    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + ytd_string + '&to=' + ytd_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
@@ -213,16 +223,16 @@ export default function App() {
       console.log(dat);
       //console.log(dat.reddit[0].atTime);
       
-      var point0 = 0;
-      var point1 = 0;
-      var point2 = 0;
-      var point3 = 0;
-      var point4 = 0;
-      var first_time = ytd_string + ' 09:00:00';
-      var second_time = ytd_string + ' 11:00:00';
-      var third_time = ytd_string + ' 13:00:00';
-      var fourth_time = ytd_string + ' 15:00:00';
-      var fifth_time = ytd_string + ' 17:00:00';
+      let point0 = 0;
+      let point1 = 0;
+      let point2 = 0;
+      let point3 = 0;
+      let point4 = 0;
+      let first_time = ytd_string + ' 09:00:00';
+      let second_time = ytd_string + ' 11:00:00';
+      let third_time = ytd_string + ' 13:00:00';
+      let fourth_time = ytd_string + ' 15:00:00';
+      let fifth_time = ytd_string + ' 17:00:00';
 
         //console.log(dat.reddit[0].atTime)
         //console.log(ytd_string);
@@ -265,7 +275,7 @@ export default function App() {
     let apiRequest = new XMLHttpRequest();
     let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + 'AAPL' + '&from=' + last_week_string + '&to=' + today_string + '&token=' + api_key;
+    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + last_week_string + '&to=' + today_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
@@ -273,37 +283,37 @@ export default function App() {
       console.log(dat);
       console.log(request_url);
       
-      var point0 = 0;
-      var point1 = 0;
-      var point2 = 0;
-      var point3 = 0;
-      var point4 = 0;
-      var point5 = 0;
-      var point6 = 0;
+      let point0 = 0;
+      let point1 = 0;
+      let point2 = 0;
+      let point3 = 0;
+      let point4 = 0;
+      let point5 = 0;
+      let point6 = 0;
 
-      var first_time = new Date(today);
+      let first_time = new Date(today);
       first_time.setDate(today.getDate() - 6);
-      var temp1 = first_time.toISOString().split('T')[0];
+      let temp1 = first_time.toISOString().split('T')[0];
       
-      var second_time = new Date(today);
+      let second_time = new Date(today);
       second_time.setDate(today.getDate() - 5);
-      var temp2 = second_time.toISOString().split('T')[0];
+      let temp2 = second_time.toISOString().split('T')[0];
 
-      var third_time = new Date(today);
+      let third_time = new Date(today);
       third_time.setDate(today.getDate() - 4);
-      var temp3 = third_time.toISOString().split('T')[0];
+      let temp3 = third_time.toISOString().split('T')[0];
 
-      var fourth_time = new Date(today);
+      let fourth_time = new Date(today);
       fourth_time.setDate(today.getDate() - 3);
-      var temp4 = fourth_time.toISOString().split('T')[0];
+      let temp4 = fourth_time.toISOString().split('T')[0];
       
-      var fifth_time = new Date(today);
+      let fifth_time = new Date(today);
       fifth_time.setDate(today.getDate() - 2);
-      var temp5 = fifth_time.toISOString().split('T')[0];
+      let temp5 = fifth_time.toISOString().split('T')[0];
       
-      var sixth_time = new Date(today);
+      let sixth_time = new Date(today);
       sixth_time.setDate(today.getDate() - 1);
-      var temp6 = sixth_time.toISOString().split('T')[0];
+      let temp6 = sixth_time.toISOString().split('T')[0];
 
       // aggregate and calculate actual points
       for (let i = 0; i < dat.reddit.length; i++)
@@ -337,7 +347,6 @@ export default function App() {
       console.log(point4);
       console.log(point5);
       console.log(point6);
-
       setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
     // stock price call
     //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
@@ -354,7 +363,7 @@ export default function App() {
     let apiRequest = new XMLHttpRequest();
     let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + last_month_string + '&to=' + today_string + '&token=' + api_key;
+    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + last_month_string + '&to=' + today_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
@@ -362,24 +371,24 @@ export default function App() {
       console.log(dat);
       console.log(request_url);
       
-      var point0 = 0;
-      var point1 = 0;
-      var point2 = 0;
-      var point3 = 0;
+      let point0 = 0;
+      let point1 = 0;
+      let point2 = 0;
+      let point3 = 0;
 
-      var first_time = new Date(today);
+      let first_time = new Date(today);
       first_time.setDate(today.getDate() - 21);
-      var temp1 = first_time.toISOString().split('T')[0];
+      let temp1 = first_time.toISOString().split('T')[0];
       temp1 = temp1 + ' 00:00:00';
 
-      var second_time = new Date(today);
+      let second_time = new Date(today);
       second_time.setDate(today.getDate() - 14);
-      var temp2 = second_time.toISOString().split('T')[0];
+      let temp2 = second_time.toISOString().split('T')[0];
       temp2 = temp2 + ' 00:00:00';
 
-      var third_time = new Date(today);
+      let third_time = new Date(today);
       third_time.setDate(today.getDate() - 7);
-      var temp3 = third_time.toISOString().split('T')[0];
+      let temp3 = third_time.toISOString().split('T')[0];
       temp3 = temp3 + ' 00:00:00';
 
       // aggregate and calculate actual points
@@ -404,6 +413,7 @@ export default function App() {
       console.log(point1);
       console.log(point2);
       console.log(point3);
+      setMentionsData([point0, point1, point2, point3]);
     }
     //ApiRequest('AAPL','7', 'day',last_month_string,today_string);
   } else if (radioButtons == '3M') {
@@ -418,7 +428,7 @@ export default function App() {
     let apiRequest = new XMLHttpRequest();
     let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + three_month_string + '&to=' + today_string + '&token=' + api_key;
+    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + three_month_string + '&to=' + today_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
@@ -426,18 +436,18 @@ export default function App() {
       console.log(dat);
       console.log(request_url);
       
-      var point0 = 0;
-      var point1 = 0;
-      var point2 = 0;
+      let point0 = 0;
+      let point1 = 0;
+      let point2 = 0;
 
-      var first_time = new Date(today);
+      let first_time = new Date(today);
       first_time.setDate(today.getDate() - 60);
-      var temp1 = first_time.toISOString().split('T')[0];
+      let temp1 = first_time.toISOString().split('T')[0];
       temp1 = temp1 + ' 00:00:00';
 
-      var second_time = new Date(today);
+      let second_time = new Date(today);
       second_time.setDate(today.getDate() - 30);
-      var temp2 = second_time.toISOString().split('T')[0];
+      let temp2 = second_time.toISOString().split('T')[0];
       temp2 = temp2 + ' 09:00:00';
 
       // aggregate and calculate actual points
@@ -459,6 +469,7 @@ export default function App() {
       console.log(point0);
       console.log(point1);
       console.log(point2);
+      setMentionsData([point0, point1, point2]);
     }
 
     // stock price call
@@ -477,7 +488,7 @@ export default function App() {
     let apiRequest = new XMLHttpRequest();
     let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
     let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + 'MSFT' + '&from=' + last_year_string + '&to=' + today_string + '&token=' + api_key;
+    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + last_year_string + '&to=' + today_string + '&token=' + api_key;
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
@@ -485,72 +496,72 @@ export default function App() {
       console.log(dat);
       console.log(request_url);
       
-      var point0 = 0;
-      var point1 = 0;
-      var point2 = 0;
-      var point3 = 0;
-      var point4 = 0;
-      var point5 = 0;
-      var point6 = 0;
-      var point7 = 0;
-      var point8 = 0;
-      var point9 = 0;
-      var point10 = 0;
-      var point11 = 0;
+      let point0 = 0;
+      let point1 = 0;
+      let point2 = 0;
+      let point3 = 0;
+      let point4 = 0;
+      let point5 = 0;
+      let point6 = 0;
+      let point7 = 0;
+      let point8 = 0;
+      let point9 = 0;
+      let point10 = 0;
+      let point11 = 0;
 
-      var first_time = new Date(today);
+      let first_time = new Date(today);
       first_time.setDate(today.getDate() - 330);
-      var temp1 = first_time.toISOString().split('T')[0];
+      let temp1 = first_time.toISOString().split('T')[0];
       temp1 = temp1 + ' 00:00:00';
 
-      var second_time = new Date(today);
+      let second_time = new Date(today);
       second_time.setDate(today.getDate() - 300);
-      var temp2 = second_time.toISOString().split('T')[0];
+      let temp2 = second_time.toISOString().split('T')[0];
       temp2 = temp2 + ' 09:00:00';
 
-      var third_time = new Date(today);
+      let third_time = new Date(today);
       third_time.setDate(today.getDate() - 270);
-      var temp3 = third_time.toISOString().split('T')[0];
+      let temp3 = third_time.toISOString().split('T')[0];
       temp3 = temp3 + ' 00:00:00';
 
-      var fourth_time = new Date(today);
+      let fourth_time = new Date(today);
       fourth_time.setDate(today.getDate() - 240);
-      var temp4 = fourth_time.toISOString().split('T')[0];
+      let temp4 = fourth_time.toISOString().split('T')[0];
       temp4 = temp4 + ' 00:00:00';
 
-      var fifth_time = new Date(today);
+      let fifth_time = new Date(today);
       fifth_time.setDate(today.getDate() - 210);
-      var temp5 = fifth_time.toISOString().split('T')[0];
+      let temp5 = fifth_time.toISOString().split('T')[0];
       temp5 = temp5 + ' 00:00:00';
 
-      var sixth_time = new Date(today);
+      let sixth_time = new Date(today);
       sixth_time.setDate(today.getDate() - 180);
-      var temp6 = sixth_time.toISOString().split('T')[0];
+      let temp6 = sixth_time.toISOString().split('T')[0];
       temp6 = temp6 + ' 00:00:00';
 
-      var seventh_time = new Date(today);
+      let seventh_time = new Date(today);
       seventh_time.setDate(today.getDate() - 150);
-      var temp7 = seventh_time.toISOString().split('T')[0];
+      let temp7 = seventh_time.toISOString().split('T')[0];
       temp7 = temp7 + ' 00:00:00';
 
-      var eighth_time = new Date(today);
+      let eighth_time = new Date(today);
       eighth_time.setDate(today.getDate() - 120);
-      var temp8 = eighth_time.toISOString().split('T')[0];
+      let temp8 = eighth_time.toISOString().split('T')[0];
       temp8 = temp8 + ' 00:00:00';
 
-      var ninth_time = new Date(today);
+      let ninth_time = new Date(today);
       ninth_time.setDate(today.getDate() - 90);
-      var temp9 = ninth_time.toISOString().split('T')[0];
+      let temp9 = ninth_time.toISOString().split('T')[0];
       temp9 = temp9 + ' 00:00:00';
 
-      var tenth_time = new Date(today);
+      let tenth_time = new Date(today);
       tenth_time.setDate(today.getDate() - 60);
-      var temp10 = tenth_time.toISOString().split('T')[0];
+      let temp10 = tenth_time.toISOString().split('T')[0];
       temp10 = temp10 + ' 00:00:00';
 
-      var eleventh_time = new Date(today);
+      let eleventh_time = new Date(today);
       ninth_time.setDate(today.getDate() - 30);
-      var temp11 = ninth_time.toISOString().split('T')[0];
+      let temp11 = eleventh_time.toISOString().split('T')[0];
       temp11 = temp11 + ' 00:00:00';
 
       // aggregate and calculate actual points
@@ -597,6 +608,7 @@ export default function App() {
       console.log(point9);
       console.log(point10);
       console.log(point11);
+      setMentionsData([point0, point1, point2, point3, point4, point5, point6, point7, point8, point9, point10, point11]);
     }
     // stock price call
     //ApiRequest('AAPL','1', 'year',last_year_string,today_string);
@@ -617,8 +629,13 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <StatusBar style="auto" />
-        <Text style={styles.title}>{stockName}</Text>
-        <Text style={styles.title}>${currStockPrice}</Text>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={updateSearch}
+          onSubmitEditing={() => setStock(search)}
+          value={search}
+        />
+        <Text style={styles.title}>{stock}</Text>
         <View>
           <Text style={{alignSelf: 'flex-end'}}>You selected: {radioButtons}</Text>
           <RadioGroup
