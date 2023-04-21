@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View, ScrollView, Button, StyleSheet,TouchableOpacity  } from 'react-native';
+import React, {useState} from 'react';
+import { Text, View, ScrollView, Button, StyleSheet,TouchableOpacity, Switch  } from 'react-native';
 import styles from './Styles';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { Card, Title } from 'react-native-paper';
@@ -8,6 +8,8 @@ import { auth } from './firebase'
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen({navigation}) {
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const handleSignOut = () => {
         auth
             .signOut()
@@ -48,7 +50,16 @@ export default function HomeScreen({navigation}) {
                 <Rows data={tableData.DataTable} textStyle={styles.tableText}/>
             </Table>
         </View>
-        <Text>Email: {auth.currentUser?.email}</Text>
+        <Text>Receive email notifications at {auth.currentUser?.email}</Text>
+          <View>
+              <Switch
+                  trackColor={{false: '#767577', true: '#00D100'}}
+                  thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+              />
+          </View>
         <TouchableOpacity 
             onPress={handleSignOut}
             style={styles1.button}>
