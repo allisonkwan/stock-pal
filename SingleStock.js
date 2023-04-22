@@ -29,6 +29,7 @@ export default function App() {
     setSearch(search);
   };
   const [stock, setStock] = useState('AAPL'); // the final value, updated when user hits "return" on mobile keyboard
+  const [averageCost, setAverageCost] = useState(0);
 
   const [testData, setTestData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -36,7 +37,8 @@ export default function App() {
       {
         data: [datapoint0, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6, datapoint7,
           datapoint8, datapoint9, datapoint10, datapoint11],
-        ticker: stock
+        ticker: stock,
+        avgCost: averageCost
       },
     ],
   });
@@ -53,7 +55,8 @@ export default function App() {
             data: dataPoints,
             totalPeriod: 'Day',
             intervalSize: 'Hour',
-            ticker: stock
+            ticker: stock,
+            avgCost: averageCost
           },
         ],
       });
@@ -66,7 +69,8 @@ export default function App() {
             data: dataPoints,
             totalPeriod: 'Week',
             intervalSize: 'Day',
-            ticker: stock
+            ticker: stock,
+            avgCost: averageCost
           },
         ],
       });
@@ -79,7 +83,8 @@ export default function App() {
             data: [datapoint0, datapoint1, datapoint2, datapoint3],
             totalPeriod: 'Month',
             intervalSize: 'Week',
-            ticker: stock
+            ticker: stock,
+            avgCost: averageCost
           },
         ],
       });
@@ -92,7 +97,8 @@ export default function App() {
             data: [datapoint0, datapoint1, datapoint2],
             totalPeriod: '3 Month',
             intervalSize: 'Month',
-            ticker: stock
+            ticker: stock,
+            avgCost: averageCost
           },
         ],
       });
@@ -106,7 +112,8 @@ export default function App() {
               datapoint8, datapoint9, datapoint10, datapoint11],
             totalPeriod: 'Year',
             intervalSize: 'Month',
-            ticker: stock
+            ticker: stock,
+            avgCost: averageCost
           },
         ],
       });
@@ -115,57 +122,35 @@ export default function App() {
   }
 
   function ApiRequest(stockTicker, multiplier, timespan, from, to) {
-    //var api = new ApiRequest(data);
     let apiRequest = new XMLHttpRequest();
-    //console.log('hello')
     let polygon_api_key = "oHBzULapO1eRflaBEVlNkpED4qs9pFd0"
     let polygon_rest_baseurl = "https://api.polygon.io/v2/"
     let request_url = polygon_rest_baseurl + 'aggs/ticker/' + stockTicker + '/range/1/' + timespan + '/' + from + '/' + to + '?adjusted=true&sort=asc&limit=120&apiKey=' + polygon_api_key
+    let average = 0
     console.log(request_url)
     apiRequest.open("GET", request_url)
     apiRequest.send();
     apiRequest.onload = function () {
       dat = JSON.parse(this.response)
-      //console.log(dat);
-      //console.log(dat.results[0]);
-      //console.log(dat.results[0].vw);
-      //averageCost[0] = dat.results[0].vw;
-      setAverageCost(dat.results[0].vw);
+      console.log(dat.results[0].vw);
+      average = dat.results[0].vw
+      setAverageCost(average)
     }
-    return;
   }
-/*
-  function GoogleApiRequest(stock, from_date, to_date) {
-    let apiRequest = new XMLHttpRequest();
-    //console.log('hello')
-    let api_key = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
-    //https://finnhub.io/api/v1/stock/social-sentiment?symbol=GME&from=2022-10-10&to=2022-10-16&token=cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0
-    let rest_baseurl = "https://finnhub.io/api/v1/stock/social-sentiment?";
-    let request_url = rest_baseurl + 'symbol=' + stock + '&from=' + from_date + '&to=' + to_date + '&token=' + api_key;
-    //let request_url = "https://finnhub.io/api/v1/stock/social-sentiment?symbol=AAPL&token=cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
-    console.log(request_url)
-    apiRequest.open("GET", request_url)
-    apiRequest.send();
-    apiRequest.onload = function () {
+
+  let apiRequest1 = new XMLHttpRequest();
+  let api_key1 = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0"
+  let rest_baseurl1 = "https://finnhub.io/api/v1/quote?symbol=" + stock + '&token=' + api_key1;
+  apiRequest1.open("GET", rest_baseurl1)
+  apiRequest1.send();
+    apiRequest1.onload = function () {
       dat = JSON.parse(this.response)
-      console.log(dat);
-      console.log(dat.twitter);
-      //console.log(dat.results[0].vw);
-      //averageCost[0] = dat.results[0].vw;
-      //setAverageCost(dat.results[0].vw);
+      console.log(dat.c);
+      setCurrStockPrice(dat.c)
     }
+  const [currStockPrice, setCurrStockPrice] = useState(0);
     
 
-    //const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-    //api_key.apiKey = "cghr399r01qr8eo2mftgcghr399r01qr8eo2mfu0" // Replace this
-    //const finnhubClient = new finnhub.DefaultApi()
-    //finnhubClient.socialSentiment('GME', (error, data, response) => {
-    //  console.log(data);
-    //});
-    return;
-  }*/
-
-  const currStockPrice = 151.23;
   const radioButtonsData = [
     {
       id: '1', // acts as primary key, should be unique and non-empty string
@@ -260,7 +245,8 @@ export default function App() {
       setMentionsData([point0, point1, point2, point3, point4]);
     }
     // stock price call
-    //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
+    ApiRequest(stock, '1', 'week', ytd_string, today_string);
+    
   } else if (radioButtons == '1W') {
     const today = new Date();
     const last_week = new Date(today);
@@ -347,7 +333,7 @@ export default function App() {
       console.log(point6);
       setMentionsData([point0, point1, point2, point3, point4, point5, point6]);
     // stock price call
-    //ApiRequest('AAPL', '1', 'week', last_week_string, today_string);
+      ApiRequest(stock, '1', 'week', last_week_string, today_string);
     }
   } else if (radioButtons == '1M') {
     const today = new Date();
@@ -366,7 +352,6 @@ export default function App() {
     apiRequest.send();
     apiRequest.onload = function () {
       dat = JSON.parse(this.response)
-      console.log(dat);
       console.log(request_url);
       
       let point0 = 0;
@@ -413,7 +398,7 @@ export default function App() {
       console.log(point3);
       setMentionsData([point0, point1, point2, point3]);
     }
-    //ApiRequest('AAPL','7', 'day',last_month_string,today_string);
+    ApiRequest(stock,'7', 'day',last_month_string,today_string);
   } else if (radioButtons == '3M') {
     const today = new Date();
     const three_month = new Date(today);
@@ -471,7 +456,7 @@ export default function App() {
     }
 
     // stock price call
-    //ApiRequest('AAPL','3', 'month',three_month_string,today_string);
+    //ApiRequest(stock,'3', 'month',three_month_string,today_string);
   } else if (radioButtons == '1Y') {
     const today = new Date();
     const last_year = new Date(today);
@@ -609,7 +594,7 @@ export default function App() {
       setMentionsData([point0, point1, point2, point3, point4, point5, point6, point7, point8, point9, point10, point11]);
     }
     // stock price call
-    //ApiRequest('AAPL','1', 'year',last_year_string,today_string);
+    //ApiRequest(stock,'1', 'year',last_year_string,today_string);
   }
   const dataPointsTemp = [];
   for (let i = 0; i < mentionsData.length; i++) {
@@ -620,6 +605,7 @@ export default function App() {
 
   useEffect(() => {
     updateDataPoints(mentionsData, masterDataPoints);
+    //averageCost();
     filterChart(radioButtons, dataPoints);
   }, [radioButtons]);
 
@@ -634,6 +620,7 @@ export default function App() {
           value={search}
         />
         <Text style={styles.title}>{stock}</Text>
+        <Text style={styles.title}>${currStockPrice}</Text>
         <View>
           <Text style={{alignSelf: 'flex-end'}}>You selected: {radioButtons}</Text>
           <RadioGroup

@@ -16,9 +16,12 @@ export function MyLineChart({ data }) {
     const redditDatas = dataValues.datasets[0].redditData
     const twitterDatas = dataValues.datasets[0].twitterData
     const maxIndex = dataValues.labels.length - 1 ;
-    const averageCost = calculateAverage(costs);
+    
+    const averageCost = data.datasets[0].avgCost;
+    
     const totalTraction = calculateSum(values);
     const ticker = data.datasets[0].ticker;
+    console.log('made it'+averageCost)
 
     const [timestamp, setTimestamp] = useState(timestamps[maxIndex]);
     const [value, setValue] = useState(values[maxIndex]);

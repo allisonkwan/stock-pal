@@ -17,8 +17,8 @@ export function CostAndTraction({data} ) {
             </View>
             <View>
                 <View style={styles.descriptionAndValue}>
-                    <Text style={styles.light}>This {data[1]}'s Average Cost</Text>
-                    <Text>${data[3]}</Text>
+                    <Text style={styles.light}></Text>
+                    <Text></Text>
                 </View>
                 <View style={styles.descriptionAndValue}>
                     <Text style={styles.light}>This {data[1]}'s Total Traction</Text>
