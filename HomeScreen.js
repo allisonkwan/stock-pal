@@ -1,20 +1,68 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, Button, StyleSheet,TouchableOpacity, Switch  } from 'react-native';
 import styles from './Styles';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { Card, Title } from 'react-native-paper';
 import { MentionsBreakdown } from "./components/MentionsBreakdown";
-import { auth } from './firebase'
+import { auth, db } from './firebase'
+import {ref, onValue, set } from 'firebase/database'
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen({navigation}) {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    // const initialEnable = () => {
+    //     const userId = (auth.currentUser?.email).split('@')[0]
+    //     const dbRef = ref(db, "UserEmailNotifPreference/" + userId);
+    //     let initialEnable = false
+    //     onValue(dbRef, (snapshot) => {
+    //         const data = snapshot.val();
+    //
+    //         if (data.emailNotif == 0) {
+    //             initialEnable = false;
+    //         } else {
+    //             initialEnable = true;
+    //         }
+    //     });
+    //
+    //     return initialEnable;
+    // }
+
+    const [isEnabled, setIsEnabled] = useState(0);
+
+    useEffect(() => {
+        const userId = (auth.currentUser?.email).split('@')[0]
+        const dbRef = ref(db, "UserEmailNotifPreference/" + userId);
+        let initialEnable = false
+        onValue(dbRef, (snapshot) => {
+            const data = snapshot.val();
+
+            if (data.emailNotif == 0) {
+                setIsEnabled(false);
+            } else {
+                setIsEnabled(true);
+            }
+        });
+    }, [isEnabled])
+
+    const toggleSwitch = () => {
+        setIsEnabled(previousState => !previousState);
+        const userId = (auth.currentUser?.email).split('@')[0]
+        if (isEnabled == true) {
+            set(ref(db, "UserEmailNotifPreference/" + userId), {
+                email: auth.currentUser?.email,
+                emailNotif: 0
+            })
+        } else {
+            set(ref(db, "UserEmailNotifPreference/" + userId), {
+                email: auth.currentUser?.email,
+                emailNotif: 1
+            })
+        }
+    }
     const handleSignOut = () => {
         auth
             .signOut()
             .then(() => {
-                navigation.replace("Authentication")
+                navigation.navigate("Authentication")
             })
             .catch(error => alert(error.message))
     }
@@ -53,7 +101,7 @@ export default function HomeScreen({navigation}) {
         <Text>Receive email notifications at {auth.currentUser?.email}</Text>
           <View>
               <Switch
-                  trackColor={{false: '#767577', true: '#00D100'}}
+                  trackColor={{true: '#00D100', false: '#767577'}}
                   thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch}

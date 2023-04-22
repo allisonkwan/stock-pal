@@ -1,40 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
-import { auth } from './firebase';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { auth, db } from './firebase';
 import { useNavigation } from '@react-navigation/core';
-import * as SQLite from 'expo-sqlite';
+import { ref, set } from 'firebase/database';
 
 const AuthenticationScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [emailNotif, setEmailNotif] = useState(0);
   const navigation = useNavigation()
 
-  const db = SQLite.openDatabase('test.db')
   const [isLoading, setIsLoading] = useState(true);
   const [names, setNames] = useState([]);
   const [currentName, setCurrentName] = useState(undefined);
-  const showNames = () => {
-    return names.map((name, index) => {
-      return (
-        <View>
-          <Text>{name.name}</Text>
-        </View>
-      )
-    });
-  }
 
   useEffect(() => {
     console.log('here');
-    db.transaction(tx=> {
-      tx.executeSql('CREATE TABLE IF NOT EXISTS names (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT);')
-    });
-
-    db.transaction(tx => {
-      tx.executeSql('SELECT * FROM names', null,
-        (txObj, resultSet) => setNames(resultSet.rows._array),
-        (txObj, error) => console.log(error)
-      );
-    });
     setIsLoading(false);
     const unsubscribe = auth.onAuthStateChanged(user => {
       if(user) {
@@ -50,19 +31,9 @@ const AuthenticationScreen = () => {
     .then(userCredentials => {
       const user = userCredentials.user;
       console.log(user.email);
-      db.transaction(tx => {
-        tx.executeSql('INSERT INTO names (email) values (?);', auth.currentUser?.email,
-          (txObj, resultSet) => {
-            let existingNames = [...names];
-            existingNames.push({id: resultSet.isertId, name: auth.currentUser?.email});
-            setNames(existingNames);
-            setCurrentName(undefined);
-          },
-          (txObj, error) => console.log(error)
-        );
-      });
     })
     .catch(error => alert(error.message))
+    initalizeEmailNotif();
   }
 
   const handleLogin = () => {
@@ -74,6 +45,18 @@ const AuthenticationScreen = () => {
     })
     .catch(error => alert(error.message))
   }
+
+  const initalizeEmailNotif = () => {
+    const userId = email.split('@')[0]
+    set(ref(db, "UserEmailNotifPreference/" + userId), {
+      email: email,
+      emailNotif: 0
+    });
+    console.log(userId);
+    setEmail('');
+    setEmailNotif(0);
+  }
+
   return (
     
     <KeyboardAvoidingView
@@ -108,9 +91,8 @@ const AuthenticationScreen = () => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
-        {showNames()}
       </View>
-      
+
     </KeyboardAvoidingView>
   )
 }
