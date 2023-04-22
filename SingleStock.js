@@ -184,14 +184,15 @@ export default function App() {
     var newArray = value.filter((item) => item.selected === true); //get the items that are selected
     setRadioButtons(newArray[0].value); //set the selected value in this Hook
   };
+
   const [mentionsData, setMentionsData] = useState([1, 2, 3, 4, 5]);
 
   function updateDataPoints(mentionsData, masterDataPoints) {
     if (radioButtons == '1D') {
     const today = new Date();
     const ytd = new Date(today);
-    today.setDate(today.getDate() - 1);
-    ytd.setDate(today.getDate() - 1);
+    today.setDate(today.getDate() - 8);
+    ytd.setDate(today.getDate() - 8);
     let today_string = today.toISOString().split('T')[0];
     let ytd_string = ytd.toISOString().split('T')[0];
 
@@ -250,7 +251,8 @@ export default function App() {
   } else if (radioButtons == '1W') {
     const today = new Date();
     const last_week = new Date(today);
-    last_week.setDate(today.getDate() - 7);
+    last_week.setDate(today.getDate() - 14);
+    today.setDate(today.getDate() - 7);
     let today_string = today.toISOString().split('T')[0];
     let last_week_string = last_week.toISOString().split('T')[0];
     console.log(last_week_string)
